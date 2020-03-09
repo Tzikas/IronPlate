@@ -3,7 +3,7 @@ let baseURL;
 
 process.env.NODE_ENV === 'production'
   //? (baseURL = 'here should be your production endpoint')
-  ? (baseURL = window.location.origin)
+  ? (baseURL = 'https://ironplate.herokuapp.com')
   : (baseURL = 'http://localhost:5000');
 
 const service = axios.create({ withCredentials: true, baseURL });

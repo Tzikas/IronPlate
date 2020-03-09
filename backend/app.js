@@ -11,7 +11,7 @@ const session = require('express-session');
 const passport = require('./config/passport');
 
 mongoose
-  .connect('mongodb://localhost/badgirl', { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
   .catch((err) => console.error('Error connecting to mongo', err));
 
@@ -23,7 +23,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"]
+    origin: ["https://distracted-noyce-fee0e2.netlify.com"]
   })
 );
 
