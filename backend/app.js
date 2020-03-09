@@ -10,8 +10,12 @@ const cors = require('cors');
 const session = require('express-session');
 const passport = require('./config/passport');
 
+
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/badgirl'
+console.log('Connecting DB to ', MONGODB_URI)
+
 mongoose
-  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
   .catch((err) => console.error('Error connecting to mongo', err));
 
@@ -23,9 +27,18 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["https://distracted-noyce-fee0e2.netlify.com"]
+    origin: ["http://localhost:3000", "https://distracted-noyce-fee0e2.netlify.com"] //Swap this with the client url 
   })
 );
+
+
+// app.use(cors({
+//   origin: function(origin, callback){
+//     return callback(null, true);
+//   },
+//   optionsSuccessStatus: 200,
+//   credentials: true
+// }));
 
 app.use(
   session({
