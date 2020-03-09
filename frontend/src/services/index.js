@@ -1,6 +1,8 @@
 import axios from 'axios';
 let baseURL;
 
+console.log('client ')
+
 process.env.NODE_ENV === 'production'
   //? (baseURL = 'here should be your production endpoint')
   ? (baseURL = 'https://ironplate.herokuapp.com')
