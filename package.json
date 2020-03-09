@@ -1,5 +1,5 @@
 {
-  "name": "badgirl",
+  "name": "ironplate",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FTWD-OCT-2019/badgirl.git"
+    "url": "git+https://github.com/FTWD-OCT-2019/ironplate.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FTWD-OCT-2019/badgirl/issues"
+    "url": "https://github.com/FTWD-OCT-2019/ironplate/issues"
   },
-  "homepage": "https://github.com/FTWD-OCT-2019/badgirl#readme"
+  "homepage": "https://github.com/FTWD-OCT-2019/ironplate#readme"
 }

@@ -8,25 +8,11 @@ class LogIn extends Component {
     } 
     handleChange = e => this.setState({[e.target.name]: e.target.value})
 
-    handleSubmit = async e => {
+    handleSubmit = e => {
         e.preventDefault()
-        try{
-            let user = await actions.logIn(this.state);
+         actions.logIn(this.state).then(user => {
             this.props.setUser({...user.data})  
-            this.props.doFlashMessage('Logged In Successfully', true)
-
-
-        }catch(err){
-            console.log('=-=-=-=-=-',err.response.data)
-
-            if(err.response.data ==="Unauthorized"){
-                // this function is fake because we're not actually passing it in
-                // look at the full-stack-library-app to see how to pass in this function for flash messages
-                this.props.doFlashMessage('Email/Password Combination Incorrect, please check credentials and try again', false)
-            } else if(err.response.data ==="Bad Request"){
-                this.props.doFlashMessage('Please make sure to enter an Email AND Password', false)
-            }
-        }
+        }).catch(({ response }) => console.error(response.data));
     }
     render() {
         return (

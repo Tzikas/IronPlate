@@ -7,14 +7,11 @@ class SignUp extends Component {
     } 
     handleChange = e => this.setState({[e.target.name]: e.target.value})
 
-    handleSubmit = async e => {
+    handleSubmit =  e => {
         e.preventDefault()
-        try{
-            let user = await actions.signUp(this.state);
-            this.props.setUser({...user.data})  
-        } catch(err){
-            console.log('*****',err.message)
-        }
+            actions.signUp(this.state).then(user=> {
+                this.props.setUser({...user.data})  
+            }).catch(({ response }) => console.error(response.data));
     }
     render() {
         return (
