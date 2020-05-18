@@ -1,9 +1,9 @@
 # IronPlate
 
 # Start server
-## cd backend/
-## npm i 
-## nodemon 
+** cd backend/
+** npm i 
+** nodemon 
 
 
 # Start client
