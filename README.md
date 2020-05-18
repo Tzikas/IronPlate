@@ -1,15 +1,15 @@
 # IronPlate
 
-# Start Server
+## Start Server
 #### cd backend/ ####
 #### npm i ####
 #### nodemon ####
 
 
-# Start client
-cd frontend/ 
-npm i 
-npm start
+## Start client
+#### cd frontend/ 
+#### npm i 
+#### npm start
 
 
 # Deploy DB
