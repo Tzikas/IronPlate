@@ -1,5 +1,5 @@
 # IronPlate
-##### git clone https://github.com/Tzikas/IronPlate.git
+##### git fork and/or clone https://github.com/Tzikas/IronPlate.git
 ## Start Server
 ##### cd backend/ 
 ##### npm i 
