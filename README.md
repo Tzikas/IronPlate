@@ -14,7 +14,7 @@
 
 ## Deploy DB
 ##### sign in with Atlas. 
-##### Get connection string and add it to .env file... MONGDB_URI = ...
+##### Get connection string and add it to .env file. MONGDB_URI = ...
 
 ## Deploy to Heroku
 ##### heroku create 
