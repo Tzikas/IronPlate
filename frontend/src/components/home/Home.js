@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import actions from '../../services/index'
+import { Link } from 'react-router-dom'
+// import actions from '../../services/index'
 
 
 class Home extends Component {
@@ -8,9 +9,10 @@ class Home extends Component {
   }
   render() {
     return (
-      <div>
-        
-      </div>
+    <div>
+  Home
+  <Link to ='/quiz'>Quiz</Link>
+    </div>
     );
   }
 }

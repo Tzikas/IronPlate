@@ -1,11 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
 import Home from './components/home/Home';
+import About from './components/about/About'
 import NotFound from './components/404/NotFound.js';
 import SignUp from './components/auth/SignUp';
 import LogIn from './components/auth/LogIn';
 import Profile from './components/profile/Profile'
 import actions from './services/index'
+import Quiz from './components/quiz';
 
 class App extends Component {
   
@@ -32,6 +34,7 @@ class App extends Component {
       {this.state.email}
       <nav>
         <NavLink to="/">Home |</NavLink>
+        <NavLink to="/about">About |</NavLink>
   
         {this.state.email ? 
           <Fragment>
@@ -44,14 +47,15 @@ class App extends Component {
            <NavLink to="/log-in">Log In |</NavLink>
            </Fragment>
           }
-        
-      </nav>
+        </nav>
+          
       <Switch>
         <Route exact path="/" render={(props) => <Home {...props} />} />
+        <Route exact path="/about" render={(props) => <About {...props} />} />
         <Route exact path="/sign-up" render={(props)=><SignUp {...props} setUser={this.setUser} />} />
         <Route exact path="/log-in" render={(props) => <LogIn {...props} setUser={this.setUser}/>} />
         <Route exact path="/profile" render={(props) => <Profile {...props} user={this.state}/>} />
-        
+        <Route exact path="/quiz" render={(props) => <Quiz {...props} user={this.state}/>} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
