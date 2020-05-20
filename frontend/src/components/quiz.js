@@ -16,14 +16,6 @@ class quiz extends Component {
       questions: res.data,
     });
   }
-  // handleSubmit(e){
-
-  // }
-  //   handleChange(e) {
-  //     this.setState({
-  //       answer: e.target.value,
-  //     });
-  //   }
   answerQuestion = (choice, answer) => {
     console.log(choice, answer);
     if (choice !== answer) {
