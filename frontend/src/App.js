@@ -31,7 +31,7 @@ class App extends Component {
     <BrowserRouter>
       {this.state.email}
       <nav>
-        <NavLink to="/">Home |</NavLink>
+        <NavLink to="/">Homeee |</NavLink>
   
         {this.state.email ? 
           <Fragment>
