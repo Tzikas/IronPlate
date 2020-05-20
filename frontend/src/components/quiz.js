@@ -5,6 +5,8 @@ class quiz extends Component {
   state = {
     questions: [],
     answer: "",
+    correct:0,
+    incorrect:0,
   };
 
   async componentDidMount() {
@@ -14,28 +16,43 @@ class quiz extends Component {
       questions: res.data,
     });
   }
-//   handleSubmit(e) {
+  // handleSubmit(e){
 
-//   }
-//   handleChange(e) {
-//     this.setState({
-//       answer: e.target.value,
-//     });
-//   }
+  // }
+  //   handleChange(e) {
+  //     this.setState({
+  //       answer: e.target.value,
+  //     });
+  //   }
+  answerQuestion = (choice, answer) => {
+    console.log(choice, answer);
+    if (choice !== answer) {
+       alert("incorrect");
+       this.setState({
+        incorrect: this.state.incorrect +1
+       })
+    } else {
+     alert("correct");
+     this.setState({
+         correct: this.state.correct +1
+     })
+    }
+  };
   showQuestions = () => {
     return this.state.questions.map((eachQuestion) => {
+      let buttons = eachQuestion.choices.map((choice) => {
+        return (
+          <button
+            onClick={() => this.answerQuestion(choice, eachQuestion.answer)}
+          >
+            {choice}
+          </button>
+        );
+      });
       return (
-        <li key={eachQuestion._id}>
+        <li>
           {eachQuestion.question}
-          <button onClick={this.answerQuestions}>
-            {eachQuestion.choices[0]}
-          </button>
-          <button onClick={this.answerQuestions}>
-            {eachQuestion.choices[1]}
-          </button>
-          <button onClick={this.answerQuestions}>
-            {eachQuestion.choices[2]}
-          </button>
+          {buttons}
         </li>
       );
     });
@@ -44,11 +61,11 @@ class quiz extends Component {
   render() {
     return (
       <div className="question">
-        {/* <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input name="radio" onChange={(e) => this.handleChange(e)} />
-        </form> */}
+        <h2>Choose the correct answer</h2>
+        <h3>Correct:{this.state.correct}</h3>
+        <h3>Incorrect:{this.state.incorrect}</h3>
         {this.showQuestions()}
-        {/* {this.answerQuestions()} */}
+        
       </div>
     );
   }
