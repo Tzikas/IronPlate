@@ -9,9 +9,9 @@ class Home extends Component {
   }
   render() {
     return (
-    <div>
-  Home
-  <Link to ='/quiz'>Quiz</Link>
+      <div>
+      <Link className='quiz' to ='/quiz'>Quiz</Link>
+      <Link className='quiz' to ='/definition'>Definition</Link>
     </div>
     );
   }

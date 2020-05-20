@@ -6,8 +6,9 @@ import NotFound from './components/404/NotFound.js';
 import SignUp from './components/auth/SignUp';
 import LogIn from './components/auth/LogIn';
 import Profile from './components/profile/Profile'
-import actions from './services/index'
+import actions from './services/index';
 import Quiz from './components/quiz';
+import Definition from './components/definition'
 
 class App extends Component {
   
@@ -33,7 +34,7 @@ class App extends Component {
     <BrowserRouter>
       {this.state.email}
       <nav>
-        <NavLink to="/">Home |</NavLink>
+        <NavLink to="/"> Home|</NavLink>
         <NavLink to="/about">About |</NavLink>
   
         {this.state.email ? 
@@ -56,6 +57,7 @@ class App extends Component {
         <Route exact path="/log-in" render={(props) => <LogIn {...props} setUser={this.setUser}/>} />
         <Route exact path="/profile" render={(props) => <Profile {...props} user={this.state}/>} />
         <Route exact path="/quiz" render={(props) => <Quiz {...props} user={this.state}/>} />
+        <Route exact path="/definition" render={(props) => <Definition {...props} user={this.state}/>} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

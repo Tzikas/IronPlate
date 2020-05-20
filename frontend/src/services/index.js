@@ -21,11 +21,11 @@ const actions = {
   logOut: async () => {
     return await service.get('/logout')
   },
-  getQuizzes: async () => {
-    return await service.get('/quiz')
-  },
   getQuestions: async ()=>{
     return await service.get('/quiz')
+  },
+  getDefinitions: async () =>{
+  return await service.get('/definition')
   }
 };
 

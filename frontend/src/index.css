@@ -10,3 +10,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.quiz{
+  display: flex;
+  justify-content: center;
+}
+li{
+list-style: none;
+}
