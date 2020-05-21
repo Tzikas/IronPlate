@@ -26,6 +26,12 @@ const actions = {
   },
   getDefinitions: async () =>{
   return await service.get('/definition')
+  },
+  inputNotes: async (state)=>{
+    return await service.post('/note', state)
+  },
+  showNotes: async()=>{
+    return await service.get('/note')
   }
 };
 

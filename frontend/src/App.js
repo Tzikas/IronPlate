@@ -9,6 +9,7 @@ import Profile from './components/profile/Profile'
 import actions from './services/index';
 import Quiz from './components/quiz';
 import Definition from './components/definition'
+import Note from './components/note'
 
 class App extends Component {
   
@@ -17,8 +18,6 @@ class App extends Component {
   async componentDidMount() {
     let user = await actions.isLoggedIn()
     this.setState({...user.data})
-    console.log('coolest ')
-
   }
 
   setUser = (user) => this.setState(user)
@@ -58,6 +57,7 @@ class App extends Component {
         <Route exact path="/profile" render={(props) => <Profile {...props} user={this.state}/>} />
         <Route exact path="/quiz" render={(props) => <Quiz {...props} user={this.state}/>} />
         <Route exact path="/definition" render={(props) => <Definition {...props} user={this.state}/>} />
+        <Route exact path="/note" render={(props) => <Note {...props} user={this.state}/>} />
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>

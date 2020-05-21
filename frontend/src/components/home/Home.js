@@ -12,6 +12,7 @@ class Home extends Component {
       <div>
       <Link className='quiz' to ='/quiz'>JavaScript Quiz</Link>
       <Link className='quiz' to ='/definition'>Definition</Link>
+      <Link className='quiz' to ='/note'>Take Notes</Link>
     </div>
     );
   }
