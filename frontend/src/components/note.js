@@ -11,15 +11,20 @@ class note extends Component {
 
   handleChange = (e) => {
     this.setState({
-      [e.target.title]: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let res = actions.inputNotes(this.state).then((res) => {
-      console.log("is it working");
-      this.props.history.push("./note");
+    actions.inputNotes({question:this.state.question}).then((res) => {
+      console.log("is it working", res.data);
+      const questions= [...this.state.notes]
+      questions.push(res.data)
+      this.setState({
+       notes:questions 
+      })
+      // this.props.history.push("./note");
     });
   };
   createNotes= async()=>{
@@ -30,9 +35,11 @@ class note extends Component {
     })
   }
   printNotes = () => {
-    return this.state.notes.map((eachNote) => {
-      return <h3>{eachNote.question}</h3>;
+    const notes = this.state.notes.map((eachNote) => {
+       return <h3>{eachNote.question}</h3>;
     });
+    console.log(notes)
+    return notes
   };
 
   render() {
@@ -40,7 +47,7 @@ class note extends Component {
       <form onSubmit={(e) => this.handleSubmit(e)}>
         <h4>Make your own notes</h4>
         <div className="md-form md-outline">
-          <textarea
+          <textarea name="question"
             onChange={(e) => this.handleChange(e)}
             id="form75"
             className="md-textarea form-control"

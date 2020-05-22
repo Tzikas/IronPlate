@@ -4,7 +4,7 @@ const Question= require ('../models/question')
 
 router.post("/note", (req, res) => {
  console.log('made it to the backend')
- Question.create().then(questionDB=>{
+ Question.create(req.body).then(questionDB=>{
      res.json(questionDB)
  })
 
