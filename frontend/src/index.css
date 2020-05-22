@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   text-align: center;
@@ -10,3 +11,15 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+li{
+list-style: none;
+}
+.home{
+ background-image: url('/images/computer.jpg');
+height:100vh; 
+display: flex;
+flex-direction:row;
+justify-content: space-evenly;
+align-items: flex-end; 
+}
+

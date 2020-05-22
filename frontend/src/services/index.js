@@ -20,6 +20,18 @@ const actions = {
   },
   logOut: async () => {
     return await service.get('/logout')
+  },
+  getQuestions: async ()=>{
+    return await service.get('/quiz')
+  },
+  getDefinitions: async () =>{
+  return await service.get('/definition')
+  },
+  inputNotes: async (state)=>{
+    return await service.post('/note', state)
+  },
+  showNotes: async()=>{
+    return await service.get('/note')
   }
 };
 

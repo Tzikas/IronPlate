@@ -11,7 +11,7 @@ const session = require('express-session');
 const passport = require('./config/passport');
 
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/ironplate'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/questions'
 console.log('Connecting DB to ', MONGODB_URI)
 
 mongoose
@@ -63,8 +63,14 @@ app.use(logger('dev'));
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+const quiz= require('./routes/quiz');
+const definition= require('./routes/definition')
+const note= require('./routes/note')
 app.use('/', index);
 app.use('/', auth);
+app.use('/', quiz);
+app.use('/', definition);
+app.use('/', note);
 
 // Uncomment this line for production
 let client = path.join(__dirname + '../public/index.html')
