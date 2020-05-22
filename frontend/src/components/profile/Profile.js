@@ -7,7 +7,7 @@ const Profile = (props) => {
     }   
     return (
         <div>
-            Welcome {props.user.name} !!! 
+            Welcome {props.user.email} !!! 
         </div>
     );
 }

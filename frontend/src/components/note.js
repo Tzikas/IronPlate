@@ -5,8 +5,8 @@ class note extends Component {
   state = {
     notes: [],
   };
-  componentDidMount(){
-    this.createNotes()
+  componentDidMount() {
+    this.createNotes();
   }
 
   handleChange = (e) => {
@@ -17,29 +17,28 @@ class note extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    actions.inputNotes({question:this.state.question}).then((res) => {
+    actions.inputNotes({ question: this.state.question }).then((res) => {
       console.log("is it working", res.data);
-      const questions= [...this.state.notes]
-      questions.push(res.data)
+      const questions = [...this.state.notes];
+      questions.push(res.data);
       this.setState({
-       notes:questions 
-      })
-      // this.props.history.push("./note");
+        notes: questions,
+      });
     });
   };
-  createNotes= async()=>{
-    let res= await actions.showNotes();
-    console.log(res)
+  createNotes = async () => {
+    let res = await actions.showNotes();
+    console.log(res);
     this.setState({
-      notes: res.data
-    })
-  }
+      notes: res.data,
+    });
+  };
   printNotes = () => {
     const notes = this.state.notes.map((eachNote) => {
-       return <h3>{eachNote.question}</h3>;
+      return <h3>{eachNote.question}</h3>;
     });
-    console.log(notes)
-    return notes
+    console.log(notes);
+    return notes;
   };
 
   render() {
@@ -47,7 +46,8 @@ class note extends Component {
       <form onSubmit={(e) => this.handleSubmit(e)}>
         <h4>Make your own notes</h4>
         <div className="md-form md-outline">
-          <textarea name="question"
+          <textarea
+            name="question"
             onChange={(e) => this.handleChange(e)}
             id="form75"
             className="md-textarea form-control"

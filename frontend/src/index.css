@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   text-align: center;
@@ -14,8 +15,11 @@ li{
 list-style: none;
 }
 .home{
-  height:10px;
-  display:flex;
-  justify-content: space-evenly;
-  
+ background-image: url('/images/computer.jpg');
+height:100vh; 
+display: flex;
+flex-direction:row;
+justify-content: space-evenly;
+align-items: flex-end; 
 }
+

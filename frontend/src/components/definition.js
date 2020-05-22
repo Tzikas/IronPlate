@@ -37,19 +37,19 @@ class definition extends Component {
   };
 
 //   render() {
-//     return (
-//       <div>
-//         <h1>Definitions</h1>
-//         {this.showDefinitions()}
+  //     return (
+    //       <div>
+    //         <h1>Definitions</h1>
+    // {this.showDefinitions()}
 //       </div>
 //     );
 //   }
 // }
 render() {
   const { collapseID } = this.state;
-
-    return (
-      <MDBContainer>
+  
+  return (
+    <MDBContainer>
       <h2>Definitions</h2>
         <MDBContainer className="mt-5">
           <MDBCard className="mt-3">
@@ -83,7 +83,7 @@ render() {
             </MDBCollapseHeader>
             <MDBCollapse id="collapse3" isOpen={collapseID}>
               <MDBCardBody>
-              definition: Cascading style sheets are used to format the layout of Web pages.
+              definition: Cascading style sheets are used to format the layout of Web pages. They can be used to define text styles, table sizes, and other aspects of Web pages that previously could only be defined in a page's HTML.
               </MDBCardBody>
             </MDBCollapse>
           </MDBCard>
