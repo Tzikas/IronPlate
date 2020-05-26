@@ -32,13 +32,7 @@ app.use(
 );
 
 
-// app.use(cors({
-//   origin: function(origin, callback){
-//     return callback(null, true);
-//   },
-//   optionsSuccessStatus: 200,
-//   credentials: true
-// }));
+
 
 app.use(
   session({
@@ -52,7 +46,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.static(path.join(__dirname, '../frontend/build')))
 
@@ -68,10 +61,5 @@ app.use('/', auth);
 
 // Uncomment this line for production
 let client = path.join(__dirname + '../public/index.html')
-console.log('client',client)
-//app.get('*', (req, res) => res.sendFile(client));
-// For any other routes, redirect to the index.html file of React
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
-// })
+
 module.exports = app;
