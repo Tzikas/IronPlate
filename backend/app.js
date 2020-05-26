@@ -11,7 +11,7 @@ const session = require('express-session');
 const passport = require('./config/passport');
 
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/ironplate'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/deploymentExample'
 console.log('Connecting DB to ', MONGODB_URI)
 
 mongoose
