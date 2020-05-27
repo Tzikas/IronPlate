@@ -20,7 +20,13 @@ const actions = {
   },
   logOut: async () => {
     return await service.get('/logout')
-  }
+  },
+  favorite: async (cocktail) => {
+    console.log(baseURL)
+    return await service.post('/cocktail', cocktail)
+    
+  },
+
 };
 
 export default actions;

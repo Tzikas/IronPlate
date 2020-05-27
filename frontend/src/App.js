@@ -31,7 +31,7 @@ class App extends Component {
     <BrowserRouter>
       {this.state.email}
       <nav>
-        <NavLink to="/">Homeee |</NavLink>
+        <NavLink to="/">Home |</NavLink>
   
         {this.state.email ? 
           <Fragment>
@@ -47,7 +47,7 @@ class App extends Component {
         
       </nav>
       <Switch>
-        <Route exact path="/" render={(props) => <Home {...props} />} />
+        <Route exact path="/" render={(props) => <Home {...props} setUser={this.setUser} user= {this.state}/>} />
         <Route exact path="/sign-up" render={(props)=><SignUp {...props} setUser={this.setUser} />} />
         <Route exact path="/log-in" render={(props) => <LogIn {...props} setUser={this.setUser}/>} />
         <Route exact path="/profile" render={(props) => <Profile {...props} user={this.state}/>} />
