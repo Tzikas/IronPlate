@@ -7,7 +7,7 @@ const Profile = (props) => {
     return (
         <div>
             Profile
-            Welcome {props.user.email} !!! 
+            Welcome {props.user.email} <img src={props.user.imageUrl} />!!! 
         </div>
     );
 }

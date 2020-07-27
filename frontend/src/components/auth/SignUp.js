@@ -1,30 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React, {Fragment, useState } from 'react';
 import actions from '../../services/index'
 
-class SignUp extends Component {
-    state = {
+const SignUp = (props) => {
 
-    } 
-    handleChange = e => this.setState({[e.target.name]: e.target.value})
+    let [email, setEmail] = useState('')
+    let [password, setPassword] = useState('')
 
-    handleSubmit =  e => {
+    const handleSubmit = e => {
         e.preventDefault()
-            actions.signUp(this.state).then(user=> {
-                this.props.setUser({...user.data})  
-            }).catch(({ response }) => console.error(response.data));
+        console.log(email, password)
+        actions.signUp({email, password}).then(user=> {
+            console.log(user.data)
+            props.setUser({...user.data})  
+        }).catch(({ response }) => console.error(response.data));
     }
-    render() {
-        return (
-            <Fragment>
-                <h2>SignUP</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <input name="email" type="email" onChange={this.handleChange} />
-                    <input name="password" type="password" onChange={this.handleChange} />
-                    <input type="submit" value="Sign Up"/>
-                </form>
-            </Fragment>
-        );
-    }
+
+    return (
+        <Fragment>
+            <h2>SignUP</h2>
+            <form onSubmit={handleSubmit}>
+                <input name="email" type="email" onChange={(e)=>setEmail(e.target.value)} />
+                <input name="password" type="password" onChange={(e)=> setPassword(e.target.value)} />
+                <input type="submit" value="Sign Up"/>
+            </form>
+        </Fragment>        
+    )
 }
 
 export default SignUp;

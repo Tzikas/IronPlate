@@ -3,7 +3,6 @@ import actions from "../../services/index";
 import { GoogleLogin } from "react-google-login";
 
 const responseGoogle = (props) => {
-  console.log(props);
   const onResponse = (response) => {
     // console.log(response);
     const user = {

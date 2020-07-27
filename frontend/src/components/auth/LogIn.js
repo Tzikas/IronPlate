@@ -1,31 +1,30 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import actions from '../../services/index'
 
-class LogIn extends Component {
 
-    state = {
+function LogIn(props){
+    let [email, setEmail] = useState('')
+    let [password, setPassword] = useState('')
 
-    } 
-    handleChange = e => this.setState({[e.target.name]: e.target.value})
-
-    handleSubmit = e => {
+    const handleSubmit = e => {
         e.preventDefault()
-         actions.logIn(this.state).then(user => {
-            this.props.setUser({...user.data})  
+        console.log(email, password)
+        actions.logIn({email, password}).then(user=> {
+            console.log(user.data)
+            props.setUser({...user.data})  
         }).catch(({ response }) => console.error(response.data));
     }
-    render() {
-        return (
-            <Fragment>
-                <h2>LogIn</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <input name="email" type="email" onChange={this.handleChange} />
-                    <input name="password" type="password" onChange={this.handleChange} />
-                    <input type="submit" value="Log In"/>
-                </form>
-            </Fragment>
-        );
-    }
+    return (
+        <Fragment>
+            <h2>LogIn</h2>
+            <form onSubmit={handleSubmit}>
+                <input name="email" type="email" onChange={(e)=>setEmail(e.target.value)} />
+                <input name="password" type="password"  onChange={(e)=>setPassword(e.target.value)} />
+                <input type="submit" value="Log In"/>
+            </form>
+        </Fragment>
+    )
 }
 
 export default LogIn;
+
