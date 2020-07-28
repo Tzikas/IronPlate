@@ -1,6 +1,6 @@
 # IronPlate
 ##### git clone https://github.com/Tzikas/IronPlate.git. 
-##### cd Ironplate && rm -rf .git
+##### cd IronPlate && rm -rf .git
 
 ## Start Server
 ##### cd backend/ 
