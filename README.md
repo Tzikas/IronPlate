@@ -19,7 +19,8 @@
 ##### Get connection string and add it to .env file. MONGDB_URI = ...
 
 ## Deploy to Heroku
-##### heroku create 
+##### go to heroku and follow instructions to connect to github OR install heroku CLI and type heroku create in the root 
+##### enable automatic deploys and trigger depoly 
 ##### git add . 
 ##### git commit -m 'deploying' 
 ##### git push
