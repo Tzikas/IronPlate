@@ -7,7 +7,7 @@ const Profile = (props) => {
     return (
         <div>
             Profile
-            Welcome {props.user.email} !!! 
+            Greetings {props.user.email} !
         </div>
     );
 }
