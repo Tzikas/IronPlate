@@ -17,7 +17,7 @@ const App = () => {
     async function getUser() {
       let user = await actions.getUser();
       console.log('user is',user)
-      setUser(user.data)
+      setUser(user?.data)
     }
     getUser();    
   }, [])

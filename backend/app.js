@@ -64,9 +64,10 @@ app.use('/api', auth);
 
 /**ADD THIS**/
 app.get('*', (req, res, next) => {
+  console.log('weird', req.headers.host, 'peach', req.url)
   var origin = req.get('origin');
   console.log('origin', origin)
-  //res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
 })
 /*****/
 

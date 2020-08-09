@@ -12,7 +12,8 @@ function LogIn(props){
         actions.logIn({email, password}).then(user=> {
             console.log(user.data)
             props.setUser({...user.data})  
-        }).catch(({ response }) => console.error(response.data));
+        }).catch( response => console.error(response));
+
     }
     return (
         <Fragment>

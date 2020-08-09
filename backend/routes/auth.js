@@ -16,29 +16,20 @@ router.post('/signup', (req, res, next) => {
     })
     .catch((err) => { 
       console.log(err)
-      res.status(500).json({ err })
+      res.status(500).json(err)
     });
 });
 
 
 
-router.get('/profile', verifyToken, (req, res, next) => {
+router.get('/user', verifyToken, (req, res, next) => {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      console.log('err', err, authData)
-      res.sendStatus(403);
+      res.status(403).json(err);
     } else {
-      console.log(authData, 'authData')
-      //User.findById(authData._id).then((user) => { 
-        console.log('user is', authData.user)
-        //if(user)
-          res.status(200).json(authData.user)
-        //else 
-          //res.status(404).json({ ...authData })
-      //})
+      res.status(200).json(authData.user)
     }
   });
-
 });
 
 
@@ -80,28 +71,13 @@ function verifyToken(req, res, next) {
     next();
   } else {
     // Forbidden
-    res.sendStatus(403);
+    res.status(403)//.json({err:'not logged in'});
   }
 
 }
 
 
 
-
-// router.post('/api/posts', verifyToken, (req, res) => {  
-//   console.log('posts here')
-//   jwt.verify(req.token, 'secretkey', (err, authData) => {
-//     if(err) {
-//       console.log('err', err)
-//       res.sendStatus(403);
-//     } else {
-//       res.json({
-//         message: 'Post created...',
-//         authData
-//       });
-//     }
-//   });
-// });
 
 
 

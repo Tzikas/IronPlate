@@ -1,47 +1,36 @@
 import axios from 'axios';
-let baseURL;
+import baseURL from './config.js'
 
 
-/**CHANGE THIS**/
-process.env.NODE_ENV === 'production'
-  ? (baseURL = 'https://rocky-ocean-03987.herokuapp.com/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
-  : (baseURL = 'https://rocky-ocean-03987.herokuapp.com/api');  
-/****/
-/**CHANGE THIS**/
-// process.env.NODE_ENV === 'production'
-//   ? (baseURL = '/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
-//   : (baseURL = 'http://localhost:5000/api');  
-/****/
-
-console.log('coolbeans')
+console.log('coolbeans', baseURL)
 
 const token = window.localStorage.getItem('token')
 console.log(token, process.env)
-const service = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
+
+const API = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
 
 const actions = {
   getUser: async () => {
-    //Check if token 
-    // let token = window.localStorage.getItem('token')    
-    return await service.get(`/profile`)
+    return await API.get(`/user`)
   },
   signUp: async (user) => {
-    let res = await service.post('/signup', user)
-    window.localStorage.setItem('token', res.data?.token)
+    let res = await API.post('/signup', user)
+    window.localStorage.setItem('token', res?.data?.token)
     return res
   },
   logIn: async (user) => {
-    let res = await service.post('/login', user)
-    window.localStorage.setItem('token', res.data?.token)
+    let res = await API.post('/login', user)
+    window.localStorage.setItem('token', res?.data?.token)
     return res
   },
   logOut: async () => {
     window.localStorage.removeItem('token')
-    return await service.get('/logout')
+    return await API.get('/logout')
   }
 };
 
 
-// service.post('/api/posts').then(res => console.log(res))
+API.interceptors.response.use((response) => response, (error) => console.error(error?.response?.data))
+
 
 export default actions;
