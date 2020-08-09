@@ -8,7 +8,7 @@ process.env.NODE_ENV === 'production'
 
 
 const token = window.localStorage.getItem('token')
-console.log(token)
+console.log(token, process.env)
 const service = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
 
 const actions = {
