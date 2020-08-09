@@ -31,14 +31,14 @@ const App = () => {
     <BrowserRouter>
       {user?.email}
       <nav>
-        <NavLink to="/">Home |</NavLink>
+        <NavLink to="/">Home ||</NavLink>
 
         {user ? (
           <Fragment>
             <NavLink onClick={logOut} to="/">
               Log Out |
             </NavLink>
-            <NavLink to="/profile">Profile|</NavLink>
+            <NavLink to="/profile">Profile||</NavLink>
           </Fragment>
           ) : (
           <Fragment>
