@@ -31,8 +31,8 @@ router.get('/profile', verifyToken, (req, res, next) => {
       console.log(authData, 'authData')
       User.findById(authData?._id).then((user) => { 
         console.log('user is',user)
-        if(user)
-          res.status(200).json({ ...user?._doc, ...authData })
+        if(user?._doc)
+          res.status(200).json({ ...user._doc, ...authData })
         else 
           res.status(404).json({ ...authData })
       })
