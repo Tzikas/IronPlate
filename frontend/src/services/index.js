@@ -1,10 +1,16 @@
 import axios from 'axios';
 let baseURL;
 
+
 /**CHANGE THIS**/
 process.env.NODE_ENV === 'production'
-  ? (baseURL = '/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
-  : (baseURL = 'http://localhost:5000/api');  
+  ? (baseURL = 'https://rocky-ocean-03987.herokuapp.com/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
+  : (baseURL = 'https://rocky-ocean-03987.herokuapp.com/api');  
+/****/
+/**CHANGE THIS**/
+// process.env.NODE_ENV === 'production'
+//   ? (baseURL = '/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
+//   : (baseURL = 'http://localhost:5000/api');  
 /****/
 
 console.log('coolbeans')
