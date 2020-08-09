@@ -11,11 +11,11 @@ import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
 
 const App = () => {
   
-  let [user, setUser] = useState({})
+  let [user, setUser] = useState(null)
 
   useEffect(() => {
     async function getUser() {
-      let user = await actions.isLoggedIn();
+      let user = await actions.getUser();
       setUser(user.data)
     }
     getUser();    
@@ -23,7 +23,7 @@ const App = () => {
 
   const logOut = async () => {
     let res = await actions.logOut();
-    setUser({ email: null, createdAt: null, updatedAt: null, _id: null }); //FIX
+    setUser(null);
   };
 
   return(
@@ -32,14 +32,14 @@ const App = () => {
       <nav>
         <NavLink to="/">Home |</NavLink>
 
-        {user?.email ? (
+        {user ? (
           <Fragment>
             <NavLink onClick={logOut} to="/">
               Log Out |
             </NavLink>
             <NavLink to="/profile">Profile|</NavLink>
           </Fragment>
-        ) : (
+          ) : (
           <Fragment>
             <NavLink to="/sign-up">Sign Up |</NavLink>
             <NavLink to="/log-in">Log In |</NavLink>
@@ -66,8 +66,8 @@ const App = () => {
 
         <Route component={NotFound} />
       </Switch>
-      {!user?.email && <GoogleAuth setUser={setUser} />}
-      {!user?.email && <GoogleAuthLogin setUser={setUser} />}
+      {!user && <GoogleAuth setUser={setUser} />}
+      {!user && <GoogleAuthLogin setUser={setUser} />}
     </BrowserRouter>
   )
 

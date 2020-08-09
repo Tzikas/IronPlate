@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
 const Profile = (props) => {
-    if(!props.user.email){ 
+    console.log(props)
+
+    if(!props?.user){ 
         props.history.push('/log-in') 
     }   
     return (
         <div>
             Profile
-            Welcome {props.user.email} <img src={props.user.imageUrl} />!!! 
+            Welcome {props?.user?.email} <img src={props?.user?.imageUrl} />!!! 
         </div>
     );
 }

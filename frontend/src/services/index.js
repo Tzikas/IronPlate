@@ -6,21 +6,34 @@ process.env.NODE_ENV === 'production'
   ? (baseURL = 'window.location.origin')
   : (baseURL = 'http://localhost:5000');
 
-const service = axios.create({ withCredentials: true, baseURL });
+
+const token = window.localStorage.getItem('token')
+console.log(token)
+const service = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
 
 const actions = {
-  isLoggedIn: async () => {
-    return await service.get('/is-logged-in')
+  getUser: async () => {
+    //Check if token 
+    // let token = window.localStorage.getItem('token')    
+    return await service.get(`/profile`)
   },
   signUp: async (user) => {
-    return await service.post('/signup', user)
+    let res = await service.post('/signup', user)
+    window.localStorage.setItem('token', res.data?.token)
+    return res
   },
   logIn: async (user) => {
-    return await service.post('/login', user)
+    let res = await service.post('/login', user)
+    window.localStorage.setItem('token', res.data?.token)
+    return res
   },
   logOut: async () => {
+    window.localStorage.removeItem('token')
     return await service.get('/logout')
   }
 };
+
+
+// service.post('/api/posts').then(res => console.log(res))
 
 export default actions;
