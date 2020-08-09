@@ -3,10 +3,11 @@ let baseURL;
 
 /**CHANGE THIS**/
 process.env.NODE_ENV === 'production'
-  ? (baseURL = '/api') //https://rocky-ocean-03987.herokuapp.com/  
+  ? (baseURL = '/api') //e.g https://rocky-ocean-03987.herokuapp.com/  
   : (baseURL = 'http://localhost:5000/api');  
 /****/
 
+console.log('coolbeans')
 
 const token = window.localStorage.getItem('token')
 console.log(token, process.env)

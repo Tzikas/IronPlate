@@ -64,7 +64,9 @@ app.use('/api', auth);
 
 /**ADD THIS**/
 app.get('*', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
+  var origin = req.get('origin');
+  console.log('origin', origin)
+  //res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
 })
 /*****/
 
