@@ -28,7 +28,7 @@ router.get('/profile', verifyToken, (req, res, next) => {
       console.log('err', err)
       res.sendStatus(403);
     } else {
-      User.findById(req.user._id).then((user) => res.status(200).json({ ...user, ...authData }))
+      User.findById(req.user._id).then((user) => res.status(200).json({ ...user._doc, ...authData }))
     }
   });
 
@@ -40,7 +40,7 @@ router.get('/profile', verifyToken, (req, res, next) => {
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
   jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
-    res.status(200).json({ token, ...user  });
+    res.status(200).json({...user._doc, token});
   })
 });
 
