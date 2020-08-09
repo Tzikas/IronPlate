@@ -1,10 +1,11 @@
 import axios from 'axios';
 let baseURL;
 
+/**CHANGE THIS**/
 process.env.NODE_ENV === 'production'
-  // ? (baseURL = 'https://sheltered-dawn-07708.herokuapp.com')
-  ? (baseURL = 'window.location.origin')
-  : (baseURL = 'http://localhost:5000');
+  ? (baseURL = '/api') //https://rocky-ocean-03987.herokuapp.com/  
+  : (baseURL = 'http://localhost:5000/api');  
+/****/
 
 
 const token = window.localStorage.getItem('token')
