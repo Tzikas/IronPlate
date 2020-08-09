@@ -28,7 +28,8 @@ router.get('/profile', verifyToken, (req, res, next) => {
       console.log('err', err, authData)
       res.sendStatus(403);
     } else {
-      User.findById(authData._id).then((user) => res.status(200).json({ ...user._doc, ...authData }))
+      console.log(authData, 'authData')
+      User.findById(authData._id).then((user) => res.status(200).json({ ...user?._doc, ...authData }))
     }
   });
 
