@@ -1,5 +1,6 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
+import TheContext from './TheContext';
 import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
 import SignUp from "./components/auth/SignUp";
@@ -28,7 +29,8 @@ const App = () => {
   };
 
   return(
-    <BrowserRouter>
+        <TheContext.Provider value={user}>
+
       {user?.email}
       <nav>
         <NavLink to="/">Home ||</NavLink>
@@ -62,14 +64,15 @@ const App = () => {
         <Route
           exact
           path="/profile"
-          render={(props) => <Profile {...props} user={user} />}
+          render={(props) => <Profile {...props} />}
         />
 
         <Route component={NotFound} />
       </Switch>
       {!user && <GoogleAuth setUser={setUser} />}
       {!user && <GoogleAuthLogin setUser={setUser} />}
-    </BrowserRouter>
+    </TheContext.Provider>
+
   )
 
 }
