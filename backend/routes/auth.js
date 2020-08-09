@@ -25,10 +25,10 @@ router.post('/signup', (req, res, next) => {
 router.get('/profile', verifyToken, (req, res, next) => {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      console.log('err', err)
+      console.log('err', err, authData)
       res.sendStatus(403);
     } else {
-      User.findById(req.user._id).then((user) => res.status(200).json({ ...user._doc, ...authData }))
+      User.findById(authData._id).then((user) => res.status(200).json({ ...user._doc, ...authData }))
     }
   });
 
