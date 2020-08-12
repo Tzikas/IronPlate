@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import TheContext from '../../TheContext'
 import actions from '../../api'
 
@@ -33,48 +33,54 @@ const Profile = (props) => {
 }
 
 function MyPosts({posts}){
-    console.log(posts)
 
-    let rows = posts.map(eachPost => (
-        <Fragment key={Math.random()}>
-    
-          <li >
-            <img src={eachPost.user?.imageUrl} />
-            <div>{eachPost.user?.name} needs you help</div>
-            <div>{eachPost.message}</div>
-    
-    
-          </li>
-          <div>{eachPost.time}</div>
-    
-        </Fragment>
-    ))
+    let rows = posts.map(post => <EachMyPost key={post._id} {...post} />)
 
     rows.unshift(
-        React.createElement('h2', null, 'My Requests For Help')
+        React.createElement('h2', {key:'help you'}, 'I need help with:')
     )
     return rows
 }
 
 
+function EachMyPost(post){
+    const [resolve, setResolve] = useState(post.resolved)
+    let {user, setUser} = useContext(TheContext)
+
+    const resolvePost = (val) => (event) => {
+        actions.resolvePost({post, resolved:val}).then(res => {
+            setResolve(val)
+            setUser(res.data.helpee)                        
+        }).catch(err => console.error(err))
+    }
+    return (
+        <li key={post._id}>
+            <div>{post.message}  <i>{post.bounty}</i></div>
+                { resolve ? 
+                    <button onClick={resolvePost(false)}>Not Resolved</button>
+                    : 
+                    <button onClick={resolvePost(true)}>Resolved</button>
+                }
+        </li>
+    )
+}
+
+
 function OthersPosts({posts}){
-    console.log(posts)
     let rows = posts.map(eachPost => (
-        <Fragment key={Math.random()}>
     
-          <li >
+          <li key={eachPost._id}>
             <img src={eachPost.user?.imageUrl} />
             <div>{eachPost.user?.name} needs you help</div>
             <div>{eachPost.message}</div>
     
-    
+            <div>{eachPost.time}</div>
+
           </li>
-          <div>{eachPost.time}</div>
     
-        </Fragment>
     ))
     rows.unshift(
-        React.createElement('h2', null, 'Im helping these posts')
+        React.createElement('h2', {key:'help me'}, 'Im helping:')
     )
     return rows
 }
@@ -92,8 +98,8 @@ const AddPost = ({history}) => {
 
     }
     return ( 
-        <form onSubmit={handleSubmit}>
-            <input onChange={(e) => setMessage(e.target.value)} type="text" />
+        <form id="askForHelp" onSubmit={handleSubmit}>
+            <input onChange={(e) => setMessage(e.target.value)} placeholder="Ask for help" type="text" />
             <button>Add</button>
         </form>
     )
@@ -103,14 +109,44 @@ const AddPost = ({history}) => {
 
 const Welcome = () => {
     
-    const {user, history} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    let {user, history} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    console.log(user)
     return (
-        <Fragment>
+        <div className="profile">
             <img src={user?.imageUrl} />
-            <div onClick={() => history.push('/')}>Welcome {user?.email} </div>
-
-        </Fragment>
+            <div onClick={() => history.push('/')}>Welcome {user?.name} </div>
+            <div>{user?.points} Points</div>
+        </div>
     )
 }
+
+
+
+function notifyMe(message) {
+    // Let's check if the browser supports notifications
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    }
+  
+    // Let's check whether notification permissions have already been granted
+    else if (Notification.permission === "granted") {
+      // If it's okay let's create a notification
+      var notification = new Notification(message);
+    }
+  
+    // Otherwise, we need to ask the user for permission
+    else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          var notification = new Notification(message);
+        }
+      });
+    }
+  
+    // At last, if the user has denied notifications, and you 
+    // want to be respectful there is no need to bother them any more.
+  }
+
 
 export default Profile;

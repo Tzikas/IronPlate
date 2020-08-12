@@ -54,6 +54,9 @@ const actions = {
   helpUser: async (user) => {
     return await API.post('/help', user, head())
   },
+  resolvePost: async(post) => {
+    return await API.post('/resolve-post', post)
+  }
 
 };
 

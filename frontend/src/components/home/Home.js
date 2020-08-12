@@ -17,8 +17,6 @@ const EachPost = ( post ) => {
 
   let isThereAnotherHelper = post?.helper && !areYouTheHelper
 
-  console.log( post, areYouTheHelper, isThereAnotherHelper)
-
   let [helped, setHelped] = useState(areYouTheHelper || isThereAnotherHelper)
 
 
@@ -64,7 +62,7 @@ const Posts = () => {
   useEffect(() => { 
     actions.getAllPosts()
       .then(posts => {
-        setPosts(posts.data)
+        setPosts(posts.data.reverse())
       })
       .catch(err => console.error(err))      
   }, [])

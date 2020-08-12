@@ -4,8 +4,8 @@ import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import TheContext from './TheContext';
 import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
-import SignUp from "./components/auth/SignUp";
-import LogIn from "./components/auth/LogIn";
+// import SignUp from "./components/auth/SignUp";
+// import LogIn from "./components/auth/LogIn";
 import Profile from "./components/profile/Profile";
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
@@ -32,7 +32,10 @@ const App = () => {
   const history = useHistory();
 
   return (
-    <TheContext.Provider value={{ history, user }}>
+    <TheContext.Provider value={{ history, user, setUser }}>
+      
+      
+
 
       {user?.email}
       <nav>
@@ -47,14 +50,16 @@ const App = () => {
           </Fragment>
         ) : (
             <Fragment>
-              <NavLink to="/sign-up">Sign Up |</NavLink>
-              <NavLink to="/log-in">Log In |</NavLink>
+              {/* <NavLink to="/sign-up">Sign Up |</NavLink>
+              <NavLink to="/log-in">Log In |</NavLink> */}
+              {!user && <GoogleAuth setUser={setUser} history={history}/>}
+              {!user && <GoogleAuthLogin setUser={setUser} history={history} />}
             </Fragment>
           )}
       </nav>
       <Switch>
         <Route exact path="/" render={(props) => <Home {...props} />} />
-        <Route
+        {/* <Route
           exact
           path="/sign-up"
           render={(props) => <SignUp {...props} setUser={setUser} history={history}/>}
@@ -63,7 +68,7 @@ const App = () => {
           exact
           path="/log-in"
           render={(props) => <LogIn {...props} setUser={setUser} history={history} />}
-        />
+        /> */}
         <Route
           exact
           path="/profile"
@@ -72,8 +77,7 @@ const App = () => {
 
         <Route component={NotFound} />
       </Switch>
-      {!user && <GoogleAuth setUser={setUser} history={history}/>}
-      {!user && <GoogleAuthLogin setUser={setUser} history={history} />}
+
     </TheContext.Provider>
 
   )

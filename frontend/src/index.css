@@ -1,3 +1,6 @@
+*{
+  transition:all 1s; 
+}
 body {
   margin: 0;
   padding: 50px;
@@ -17,4 +20,37 @@ li {
   justify-content:space-between;
   padding: 20px;
   border: 1px solid #eee
+}
+
+
+#askForHelp {
+  display: flex;
+  display: flex;
+  justify-content: center;
+  /* width: 100%; */
+  padding: 50px;
+}
+
+#askForHelp input {
+  font-size: 24px;
+  width: 100%;
+}
+
+.profile{
+  display:flex;
+  border-top:    1px solid  #555;
+  /*border-bottom: 1px solid #555; */
+  justify-content:space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+i{
+  font-size: 10px;
+  display:block;
+  margin-top: 5px;
+}
+
+i::after{
+  content: ' points '
 }
