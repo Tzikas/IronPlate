@@ -1,5 +1,6 @@
 import axios from 'axios';
 import baseURL from './config.js'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
 console.log('coolbeans', baseURL)
@@ -61,7 +62,16 @@ const actions = {
 };
 
 
-API.interceptors.response.use((response) => response, (error) => console.error(error?.response?.data))
+API.interceptors.response.use((response) => response, (error) => { 
+  console.error(error?.response?.data, '????')
+  NotificationManager.error(String(error?.response?.data.message))
+
+  // if(error?.response?.data.name !== "JsonWebTokenError" )
+  //   NotificationManager.error(String(error?.response?.data.message))
+  // else
+  //   NotificationManager.error("Please signup or login")
+
+})
 
 
 export default actions;

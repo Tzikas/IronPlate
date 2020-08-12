@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom'
 import TheContext from '../../TheContext'
 import actions from '../../api'
 
 const Profile = (props) => {
-    
+    console.log(props)
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
       useEffect(() => { 
@@ -21,13 +22,15 @@ const Profile = (props) => {
           }).catch(err => console.error(err))    
 
       }, [])
-
+  
     return (
         <div>
+            
             <Welcome />  {/*'Look ma!  No props!!!'*/}
             <AddPost {...props} />
             <MyPosts posts={posts}/>
             <OthersPosts posts={otherPosts} />
+             
         </div>
     );
 }
@@ -111,6 +114,10 @@ const Welcome = () => {
     
     let {user, history} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
     console.log(user)
+
+    if (!user) {
+        return <Redirect to='/'/>;
+    }
     return (
         <div className="profile">
             <img src={user?.imageUrl} />

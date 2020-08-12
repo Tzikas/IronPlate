@@ -17,8 +17,10 @@ const responseGoogle = ({setUser, history}) => {
 
       })
       .catch( response => { 
-        alert(response.message)
+        // alert(response.message)
         console.error(response)
+
+        throw new Error({err:'response'})
     });
     
   };

@@ -10,6 +10,7 @@ import Profile from "./components/profile/Profile";
 import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 const App = () => {
 
@@ -39,10 +40,11 @@ const App = () => {
 
       {user?.email}
       <nav>
-        <NavLink to="/">Home ||</NavLink>
 
         {user ? (
           <Fragment>
+            <NavLink to="/">Home ||</NavLink>
+
             <NavLink onClick={logOut} to="/">
               Log Out |
             </NavLink>
@@ -69,6 +71,7 @@ const App = () => {
           path="/log-in"
           render={(props) => <LogIn {...props} setUser={setUser} history={history} />}
         /> */}
+
         <Route
           exact
           path="/profile"
@@ -78,6 +81,7 @@ const App = () => {
         <Route component={NotFound} />
       </Switch>
 
+      <NotificationContainer />
     </TheContext.Provider>
 
   )
