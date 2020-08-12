@@ -75,6 +75,6 @@ app.get('*', (req, res, next) => {
 /*****/
 
 // Uncomment this line for production
-let client = path.join(__dirname + '../public/index.html')
+// let client = path.join(__dirname + '../public/index.html')
 
 module.exports = app;
