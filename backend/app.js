@@ -11,7 +11,7 @@ const session = require('express-session');
 const passport = require('./config/passport');
 
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/deploymentExample'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/calendly'
 console.log('Connecting DB to ', MONGODB_URI)
 
 mongoose
@@ -27,7 +27,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app", "https://elated-jackson-28b73e.netlify.app"] //Swap this with the client url 
+    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app"] //Swap this with the client url 
   })
 );
 
@@ -39,7 +39,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     secret: "secret",
-    cookie: { maxAge: 1000 * 60 * 60 }
+    // cookie: { maxAge: 1000 * 60 * 60 }
   })
 );
 
@@ -54,11 +54,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(logger('dev'));
 
-const index = require('./routes/index');
 const auth = require('./routes/auth');
+const index = require('./routes/index');
+
 /**CHANGE THIS**/
-app.use('/api', index);
 app.use('/api', auth);
+app.use('/api', index);
+
 /*****/
 
 

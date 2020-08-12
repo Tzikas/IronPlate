@@ -7,6 +7,10 @@ const userSchema = new Schema(
     name: String,
     googleId: String,
     imageUrl: String,
+    posts: [{ type : Schema.Types.ObjectId, ref: 'Posts' }],
+    points: {
+      type: Number, default: 1000
+    }
   },
   {
     timestamps: true,

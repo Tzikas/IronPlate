@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Post = require('../models/Post');
+
 const passport = require('../config/passport');
 const jwt = require('jsonwebtoken');
 
@@ -8,7 +10,7 @@ const jwt = require('jsonwebtoken');
 router.post('/signup', (req, res, next) => {
   User.register(req.body, req.body.password)
     .then((user) => { 
-      jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+      jwt.sign({user}, 'secretkey', { expiresIn: '1 hour' }, (err, token) => {
         req.login(user, function(err,result){
           res.status(201).json({...user._doc, token})
         })
@@ -35,9 +37,10 @@ router.get('/user', verifyToken, (req, res, next) => {
 
 
 
+
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
-  jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+  jwt.sign({user}, 'secretkey', { expiresIn: '1 hour' }, (err, token) => {
     res.status(200).json({...user._doc, token});
   })
 });
@@ -46,6 +49,8 @@ router.get('/logout', (req, res, next) => {
   req.logout();
   res.status(200).json({ msg: 'Logged out' });
 });
+
+
 
 
 function isAuth(req, res, next) {
@@ -80,6 +85,63 @@ function verifyToken(req, res, next) {
 
 
 
+
+
+///BELOW SHOULD BE IN INDEX 
+
+
+
+router.post('/new-post', verifyToken, (req, res, next) => {
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.status(403).json(err);
+    } else {
+      console.log(req.body, 'made it here', authData.user)
+      //res.status(200).json(authData.user)
+      let post = req.body
+      post.user = authData.user._id
+      Post
+        .create(post)
+        .then(posted => res.status(200).json(posted))
+        .catch(err => res.status(500).json(err))
+    }
+  });
+})
+
+
+router.post('/help', verifyToken, (req, res, next) => {
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.status(403).json(err);
+    } else {
+      let { post, help }  = req.body
+      let update = help ? {helper:authData.user._id} : {helper: null}
+      Post 
+        .findByIdAndUpdate(post._id, update, {new:true})
+        .then(posted => {  
+          res.status(200).json(posted)
+        })
+        .catch(err => res.status(500).json(err))
+    }
+  })
+})
+
+
+router.get('/my-posts', verifyToken, (req, res, next) => {
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.status(403).json(err);
+    } else {
+      Post
+        .find({user:authData.user._id})
+        .then(posts => res.status(200).json(posts))
+        .catch(err => res.status(500).json(err))
+    }
+    
+  })
+})
 
 
 module.exports = router;
