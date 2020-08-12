@@ -92,7 +92,7 @@ function verifyToken(req, res, next) {
 
 
 router.post('/new-post', verifyToken, (req, res, next) => {
-
+  console.log(req.token, ' ------- ')
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       res.status(403).json(err);

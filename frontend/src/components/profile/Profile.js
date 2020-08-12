@@ -8,7 +8,7 @@ const Profile = (props) => {
       useEffect(() => { 
         actions.getMyPosts()
           .then(posts => {
-            console.log(posts)
+            
            setPosts(posts.data.reverse())
           })
           .catch(err => console.error(err))      
@@ -17,7 +17,7 @@ const Profile = (props) => {
     return (
         <div>
             <Welcome />  {/*'Look ma!  No props!!!'*/}
-            <AddPost />
+            <AddPost {...props} />
             <MyPosts posts={posts}/>
         </div>
     );
@@ -41,12 +41,15 @@ function MyPosts({posts}){
 }
 
 
-const AddPost = () => {
+const AddPost = ({history}) => {
     const [message, setMessage] = useState("")
     
     const handleSubmit = e => {
         e.preventDefault();
-        actions.addPost({message}).then(res => console.log(res)).catch(err=> console.error(err))
+        actions.addPost({message}).then(res => { 
+            console.log(res)
+            history.push('/')
+        }).catch(err=> console.error(err))
 
     }
     return ( 

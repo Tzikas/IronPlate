@@ -7,25 +7,29 @@ console.log('coolbeans', baseURL)
 const token = window.localStorage.getItem('token')
 let t = token ? token.substring(0,15):null
 console.log(t, process.env.NODE_ENV)
+let head = () =>  { 
+  return { headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` } }
+}
 
-const API = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
-console.log(API)
+const API = axios.create({ withCredentials: true, baseURL ,  headers: { Authorization: `Bearer ${token}`} } );
+
+
 const actions = {
   getUser: async () => {
-    return await API.get(`/user`)
+    return await API.get(`/user`, head())
   },
   signUp: async (user) => {
-    let res = await API.post('/signup', user)
+    let res = await API.post('/signup', user, head())
     let token =  res?.data?.token
     window.localStorage.setItem('token',token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    //FixMe 
+    // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     return res
   },
   logIn: async (user) => {
-    let res = await API.post('/login', user)
+    let res = await API.post('/login', user, head())
     let token =  res?.data?.token
     window.localStorage.setItem('token', token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     return res
   },
   logOut: async () => {
@@ -33,16 +37,16 @@ const actions = {
     return await API.get('/logout')
   },
   addPost: async(message) => {
-    return await API.post('/new-post', message)
+    return await API.post('/new-post', message,  head())
   },
   getAllPosts: async () => {
-    return await API.get('/all-posts')
+    return await API.get('/all-posts',head())
   },
   getMyPosts: async () => {
-    return await API.get('/my-posts')
+    return await API.get('/my-posts', head())
   },
   helpUser: async (user) => {
-    return await API.post('/help', user)
+    return await API.post('/help', user, head())
   },
 
 };
