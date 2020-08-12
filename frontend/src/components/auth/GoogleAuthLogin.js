@@ -1,9 +1,12 @@
 import React from "react";
 import actions from "../../api/index";
 import { GoogleLogin } from "react-google-login";
+import TheContext from '../../TheContext'
 
-const responseGoogle = (props) => {
+const responseGoogle = ({history, setUser}) => {
+
   const onResponse = (response) => {
+
     console.log(response);
     const user = {
       ...response.profileObj,
@@ -12,7 +15,8 @@ const responseGoogle = (props) => {
     actions
       .logIn(user)
       .then((user) => {
-        props.setUser({ ...user?.data });
+        setUser({ ...user?.data });
+        history.push("profile")
       })
       .catch( response => console.error(response));
   };

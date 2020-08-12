@@ -1,8 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import actions from '../../api/index'
+import TheContext from '../../TheContext'
 
 
-function LogIn(props){
+function LogIn({setUser, bug}){
+    //WHy does this work in here?? 
+    const {user, history} = React.useContext(TheContext); //Why does context work here but not in google Auth  
+
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
 
@@ -11,7 +15,9 @@ function LogIn(props){
         console.log(email, password)
         actions.logIn({email, password}).then(user=> {
             console.log(user.data)
-            props.setUser({...user.data})  
+            setUser({...user.data})  
+            history.push("profile")
+
         }).catch( response => console.error(response));
 
     }

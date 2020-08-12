@@ -1,9 +1,26 @@
 import React, { Fragment, Component, useState, useEffect } from 'react';
+import TheContext from '../../TheContext'
+
 import actions from '../../api/index'
 
-const Calendly = ( post ) => {
+const EachPost = ( post ) => {
   let [calendly, setCalendly] = useState(false)
-  let [helped, setHelped] = useState(false)
+  let {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+  let yours = post?.user._id === user?._id
+
+  // let open = false;
+  // if(!post?.helper || !yours )
+  //   open = true 
+
+
+  let areYouTheHelper =  post?.helper === user?._id
+
+  let isThereAnotherHelper = post?.helper && !areYouTheHelper
+
+  console.log( post, areYouTheHelper, isThereAnotherHelper)
+
+  let [helped, setHelped] = useState(areYouTheHelper || isThereAnotherHelper)
+
 
   const help = (val) => (event) => {
     actions.helpUser({post, help:val}).then(res => {
@@ -17,10 +34,11 @@ const Calendly = ( post ) => {
   return (
     <Fragment>
       {/* <button onClick={() => setCalendly(!calendly)}>Help {user?.name}</button> */}
+
       {helped? 
-        <button onClick={help(false)}>Nevermind</button>
+        <button disabled={isThereAnotherHelper} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
         :
-        <button onClick={help(true)}>I got you</button>
+        <button disabled={isThereAnotherHelper} onClick={help(true)}>I got you <h2> 👍</h2></button>
 
       }
       
@@ -42,19 +60,15 @@ const Calendly = ( post ) => {
 };
 
 const Posts = () => {
-  const [posts, setPosts] = useState([
-    // { message: 'I need help', user: 'Val', time: '30 seconds ago' },
-    // { message: 'Please we are stuck', user: 'Roy', time: '1 hour ago' },
-    // { message: 'Need someone here', user: 'Carlos', time: '2 hours 10 min ago' }
-  ])
+  const [posts, setPosts] = useState([])
   useEffect(() => { 
     actions.getAllPosts()
       .then(posts => {
-        console.log(posts)
-       setPosts(posts.data.reverse())
+        setPosts(posts.data)
       })
       .catch(err => console.error(err))      
   }, [])
+
 
 
   return posts.map(eachPost => (
@@ -64,8 +78,8 @@ const Posts = () => {
         <img src={eachPost.user?.imageUrl} />
         <div>{eachPost.user?.name} needs you help</div>
         <div>{eachPost.message}</div>
-
-        <Calendly {...eachPost} />
+        <div>{eachPost.bounty}</div>
+        <EachPost {...eachPost} />
 
       </li>
       <div>{eachPost.time}</div>

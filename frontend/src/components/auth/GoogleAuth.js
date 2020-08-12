@@ -2,7 +2,7 @@ import React from "react";
 import actions from "../../api/index";
 import { GoogleLogin } from "react-google-login";
 
-const responseGoogle = (props) => {
+const responseGoogle = ({setUser, history}) => {
   const onResponse = (response) => {
     console.log(response);
     const user = {
@@ -12,9 +12,15 @@ const responseGoogle = (props) => {
     actions
       .signUp(user)
       .then((user) => {
-        props.setUser({ ...user?.data });
+        setUser({ ...user?.data });
+        history.push("profile")
+
       })
-      .catch( response => console.error(response));
+      .catch( response => { 
+        alert(response.message)
+        console.error(response)
+    });
+    
   };
   return (
     <GoogleLogin

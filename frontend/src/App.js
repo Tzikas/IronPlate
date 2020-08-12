@@ -1,5 +1,6 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import React, { Fragment, useState, useEffect } from "react";
+import { Switch, Route, NavLink, useHistory } from "react-router-dom";
+// import { useHistory as history } from 'history'
 import TheContext from './TheContext';
 import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
@@ -11,16 +12,16 @@ import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
 
 const App = () => {
-  
+
   let [user, setUser] = useState(null)
 
   useEffect(() => {
     async function getUser() {
       let user = await actions.getUser();
-      console.log('user is',user)
+      console.log('user is', user)
       setUser(user?.data)
     }
-    getUser();    
+    getUser();
   }, [])
 
   const logOut = async () => {
@@ -28,8 +29,10 @@ const App = () => {
     setUser(null);
   };
 
-  return(
-        <TheContext.Provider value={user}>
+  const history = useHistory();
+
+  return (
+    <TheContext.Provider value={{ history, user }}>
 
       {user?.email}
       <nav>
@@ -42,24 +45,24 @@ const App = () => {
             </NavLink>
             <NavLink to="/profile">Profile||</NavLink>
           </Fragment>
-          ) : (
-          <Fragment>
-            <NavLink to="/sign-up">Sign Up |</NavLink>
-            <NavLink to="/log-in">Log In |</NavLink>
-          </Fragment>
-        )}
+        ) : (
+            <Fragment>
+              <NavLink to="/sign-up">Sign Up |</NavLink>
+              <NavLink to="/log-in">Log In |</NavLink>
+            </Fragment>
+          )}
       </nav>
       <Switch>
         <Route exact path="/" render={(props) => <Home {...props} />} />
         <Route
           exact
           path="/sign-up"
-          render={(props) => <SignUp {...props} setUser={setUser} />}
+          render={(props) => <SignUp {...props} setUser={setUser} history={history}/>}
         />
         <Route
           exact
           path="/log-in"
-          render={(props) => <LogIn {...props} setUser={setUser} />}
+          render={(props) => <LogIn {...props} setUser={setUser} history={history} />}
         />
         <Route
           exact
@@ -69,8 +72,8 @@ const App = () => {
 
         <Route component={NotFound} />
       </Switch>
-      {!user && <GoogleAuth setUser={setUser} />}
-      {!user && <GoogleAuthLogin setUser={setUser} />}
+      {!user && <GoogleAuth setUser={setUser} history={history}/>}
+      {!user && <GoogleAuthLogin setUser={setUser} history={history} />}
     </TheContext.Provider>
 
   )

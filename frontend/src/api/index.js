@@ -6,7 +6,10 @@ console.log('coolbeans', baseURL)
 
 const token = window.localStorage.getItem('token')
 let t = token ? token.substring(0,15):null
-console.log(t, process.env.NODE_ENV)
+
+console.log(t, 'yo',process.env.NODE_ENV)
+
+
 let head = () =>  { 
   return { headers: { Authorization: `Bearer ${window.localStorage.getItem('token')}` } }
 }
@@ -44,6 +47,9 @@ const actions = {
   },
   getMyPosts: async () => {
     return await API.get('/my-posts', head())
+  },
+  getOtherPosts: async () => {
+    return await API.get('/other-posts', head())
   },
   helpUser: async (user) => {
     return await API.post('/help', user, head())

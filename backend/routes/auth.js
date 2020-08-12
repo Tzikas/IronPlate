@@ -144,4 +144,22 @@ router.get('/my-posts', verifyToken, (req, res, next) => {
 })
 
 
+router.get('/other-posts', verifyToken, (req, res, next) => {
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.status(403).json(err);
+    } else {
+      Post
+        .find({helper:authData.user._id})
+        .then(posts => res.status(200).json(posts))
+        .catch(err => res.status(500).json(err))
+    }
+    
+  })
+})
+
+
+
+
 module.exports = router;

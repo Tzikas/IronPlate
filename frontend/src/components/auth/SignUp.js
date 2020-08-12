@@ -1,7 +1,7 @@
 import React, {Fragment, useState } from 'react';
 import actions from '../../api/index'
 
-const SignUp = (props) => {
+const SignUp = ({setUser, history}) => {
 
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
@@ -11,8 +11,13 @@ const SignUp = (props) => {
         console.log(email, password)
         actions.signUp({email, password}).then(user=> {
             console.log(user.data)
-            props.setUser({...user.data})  
-        }).catch( response => console.error(response));
+            setUser({...user.data})  
+            history.push("profile")
+
+        }).catch( response => { 
+            alert(response.message)
+            console.error(response)
+        });
 
     }
 
