@@ -25,10 +25,11 @@ const EachPost = ( post ) => {
       console.log(val, res)
       if(res)
         setHelped(val)
+        let win = window.open('https://zoom.us/j/761267530', '_blank');
+        win.focus();
     }).catch(err => console.error(err))
+
   }
-
-
 
 
   return (
