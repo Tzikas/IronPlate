@@ -9,7 +9,7 @@ const userSchema = new Schema(
     imageUrl: String,
     posts: [{ type : Schema.Types.ObjectId, ref: 'Posts' }],
     points: {
-      type: Number, default: 1000
+      type: Number, default: 2500
     }
   },
   {

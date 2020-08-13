@@ -22,22 +22,23 @@ const Profile = (props) => {
           }).catch(err => console.error(err))    
 
       }, [])
+
   
     return (
         <div>
             
             <Welcome />  {/*'Look ma!  No props!!!'*/}
-            <AddPost {...props} />
-            <MyPosts posts={posts}/>
+            <AddPost {...props} posts={posts} />
+            <MyPosts posts={posts} setPosts={setPosts}/>
             <OthersPosts posts={otherPosts} />
              
         </div>
     );
 }
 
-function MyPosts({posts}){
+function MyPosts({posts, setPosts}){
 
-    let rows = posts.map(post => <EachMyPost key={post._id} {...post} />)
+    let rows = posts.map((post, i)=> <EachMyPost key={post._id} post={post} posts={posts} setPosts={setPosts} i={i}/>)
 
     rows.unshift(
         React.createElement('h2', {key:'help you'}, 'I need help with:')
@@ -46,31 +47,33 @@ function MyPosts({posts}){
 }
 
 
-function EachMyPost(post){
+function EachMyPost({post, posts, setPosts, i}){
     const [resolve, setResolve] = useState(post.resolved)
     let {user, setUser} = useContext(TheContext)
-
     const resolvePost = (val) => (event) => {
         actions.resolvePost({post, resolved:val}).then(res => {
             setResolve(val)
+            let newPosts = [...posts]
+            newPosts[i] = res.data.posted
+            setPosts(newPosts)
             setUser(res.data.helpee)                        
         }).catch(err => console.error(err))
     }
     return (
         <li key={post._id}>
             <div>{post.message}  <i>{post.bounty}</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
-                { resolve ? 
-                    <button onClick={resolvePost(false)}>Not Resolved</button>
-                    : 
-                    <button onClick={resolvePost(true)}>Resolved</button>
-                }
+                {post.helper?
+                    resolve ? 
+                        <button onClick={resolvePost(false)}>Not Resolved</button>
+                        : 
+                        <button onClick={resolvePost(true)}>Resolved</button>
+                 : null}
         </li>
     )
 }
 
 
 function OthersPosts({posts}){
-    console.log(posts)
     let rows = posts.map(eachPost => (
     
           <li key={eachPost._id}>
@@ -96,21 +99,42 @@ function OthersPosts({posts}){
 
 
 
-const AddPost = ({history}) => {
+const AddPost = ({history, posts}) => {
     const [message, setMessage] = useState("")
     
+    let {user} = React.useContext(TheContext); 
+
+    //See if there is enough points to ask a question
+    let totalPointsSpent = posts.reduce((acc,post) => {
+        if(!post.resolved)
+            return acc += post.bounty
+        else 
+            return acc
+    }, 0)
+    let outOfPoints = user?.points - totalPointsSpent <= 0
+
+
+
     const handleSubmit = e => {
         e.preventDefault();
+
         actions.addPost({message}).then(res => { 
             history.push('/')
         }).catch(err=> console.error(err))
 
     }
+
+
     return ( 
-        <form id="askForHelp" onSubmit={handleSubmit}>
-            <input onChange={(e) => setMessage(e.target.value)} placeholder="Ask for help" type="text" />
-            <button>Add</button>
-        </form>
+        <Fragment>
+                    
+            <form  id="askForHelp" onSubmit={handleSubmit}>
+                <input  disabled={outOfPoints} onChange={(e) => setMessage(e.target.value)} placeholder={outOfPoints? "Sorry your out of points" : "Ask for help"} type="text" />
+                <button disabled={outOfPoints}>Add</button>
+            
+            </form>
+        </Fragment>
+
     )
 }
 
