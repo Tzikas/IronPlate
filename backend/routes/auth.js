@@ -151,7 +151,7 @@ router.post('/help', verifyToken, (req, res, next) => {
                   if(err)
                     throw err
                   if(help)
-                    notify(`${post?.user?.name}'s post is being helped`)
+                    notify(`${post.user.name}'s post is being helped`)
                     
                   return res.status(200).json(newPost)
                 })
@@ -229,7 +229,7 @@ router.post('/resolve-post', verifyToken, (req, res, next) => {
                   .findByIdAndUpdate(post.helper, { $inc: { points:  -1*x*post.bounty } }, {new: true})
                   .then(helper => {
                     if(x === -1)
-                     notify(`${helper?.name} has helped ${helpee?.name} and earned ${posted?.bounty} points`)
+                     notify(`${helper.name} has helped ${helpee.name} and earned ${posted.bounty} points`)
                     res.status(200).json({ posted, helpee, helper})
                   }).catch(err => {
                     console.log(err, 'err3')
