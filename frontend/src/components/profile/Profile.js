@@ -2,9 +2,9 @@ import React, { Fragment, useEffect, useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom'
 import TheContext from '../../TheContext'
 import actions from '../../api'
+import moment from 'moment'
 
 const Profile = (props) => {
-    console.log(props)
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
       useEffect(() => { 
@@ -58,7 +58,7 @@ function EachMyPost(post){
     }
     return (
         <li key={post._id}>
-            <div>{post.message}  <i>{post.bounty}</i></div>
+            <div>{post.message}  <i>{post.bounty}</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
                 { resolve ? 
                     <button onClick={resolvePost(false)}>Not Resolved</button>
                     : 
@@ -70,14 +70,20 @@ function EachMyPost(post){
 
 
 function OthersPosts({posts}){
+    console.log(posts)
     let rows = posts.map(eachPost => (
     
           <li key={eachPost._id}>
-            <img src={eachPost.user?.imageUrl} />
-            <div>{eachPost.user?.name} needs you help</div>
-            <div>{eachPost.message}</div>
+            <div>{eachPost.message}  
+                <i>{eachPost.bounty}</i> 
+                <i><img src={eachPost.user?.imageUrl} /></i> 
+                <i>Created {moment(eachPost.createdAt).format('h:mm:ss a')}</i>
+                <i>Last updated {moment(eachPost.updatedAt).format('h:mm:ss a')}</i>
+            </div>
+           
+            <div>You're helping {eachPost.user?.name}</div>
     
-            <div>{eachPost.time}</div>
+          
 
           </li>
     
@@ -113,7 +119,6 @@ const AddPost = ({history}) => {
 const Welcome = () => {
     
     let {user, history} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
-    console.log(user)
 
     if (!user) {
         return <Redirect to='/'/>;

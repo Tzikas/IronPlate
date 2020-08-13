@@ -43,12 +43,9 @@ const App = () => {
 
         {user ? (
           <Fragment>
-            <NavLink to="/">Home ||</NavLink>
-
-            <NavLink onClick={logOut} to="/">
-              Log Out |
-            </NavLink>
-            <NavLink to="/profile">Profile||</NavLink>
+            <NavLink to="/">Home</NavLink>
+            <NavLink onClick={logOut} to="/">Log Out</NavLink>
+            <NavLink to="/profile">Profile</NavLink>
           </Fragment>
         ) : (
             <Fragment>

@@ -49,8 +49,42 @@ i{
   font-size: 10px;
   display:block;
   margin-top: 5px;
+  justify-content: flex-start;
+  align-items: center;
+  display:flex;
+
+}
+i img{
+  width: 20px;
+  padding-right: 5px;
 }
 
-i::after{
-  content: ' points '
+i:nth-child(1)::after{
+  content: 'points';
+  padding: 3px;
+}
+
+i:nth-child(2)::before{
+
+}
+
+nav{ 
+  background:#eee;
+  display:flex;
+  align-items: center;
+  justify-content:space-evenly;
+  height: 100px;
+}
+
+nav a {
+  color:#008eff;
+  font-size: 24px;
+  text-decoration:none;
+  border: 1px solid black;
+  height:100%;
+  width:100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin:10px solid black;
 }

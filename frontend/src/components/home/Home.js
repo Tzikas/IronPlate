@@ -22,7 +22,9 @@ const EachPost = ( post ) => {
 
   const help = (val) => (event) => {
     actions.helpUser({post, help:val}).then(res => {
-      setHelped(val)
+      console.log(val, res)
+      if(res)
+        setHelped(val)
     }).catch(err => console.error(err))
   }
 

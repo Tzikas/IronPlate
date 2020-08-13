@@ -122,37 +122,45 @@ router.post('/help', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       let { post, help }  = req.body
-      console.log(post, help)
       let update = help ? authData.user._id :  null;
-      Post 
-        .findById(post._id)
-          .then(posted => {  
-            console.log(posted.helper , authData.user._id, posted.helper !== null , posted.helper != authData.user._id)
-            if(posted.helper && posted.helper !== null && posted.helper != authData.user._id)
-              return res.status(403).json({name:"MultipleHelpers", message:"User may only have one helper"})
-            else 
-              posted.helper = update
-              posted.save(( err, newPost) => {
-                console.log('in save',err, newPost)
-                if(err)
-                  throw err
-                if(help)
-                  notify(`${post?.user?.name}'s post is being helped`)
-                  
-                return res.status(200).json(newPost)
-              })
-          })
-        .catch(err => res.status(500).json(err))
+      console.log(post, 'help, ',help, authData.user._id)
 
-      // Post 
-      //   .findByIdAndUpdate(post._id, update, {new:true})
-      //   .then(posted => {  
-      //     if(help)
-      //       notify(`${post?.user?.name}'s post is being helped`)
 
-      //     res.status(200).json(posted)
-      //   })
-      //   .catch(err => res.status(500).json(err))
+      //Find Total number of posts being helped by user 
+      Post.find({helper: authData.user._id}).then(postsBeingHelped => {
+        console.log(postsBeingHelped,'postsBeingHelped')
+        
+        //Dont allow exceeding the limit
+        if(help && postsBeingHelped.length >= Number(process.env.HELP_LIMIT)) {
+          return res.status(403).json({name:"HelpLimitExceeded", message: `You are limited to helping ${Number(process.env.HELP_LIMIT)} users.`})          
+        } else {
+          
+          //Find Post asking for help
+          Post 
+          .findById(post._id)
+            .then(posted => {  
+
+              //Check to see it's not already being helped
+              if(posted.helper && posted.helper !== null && posted.helper != authData.user._id)
+                return res.status(403).json({name:"MultipleHelpers", message:"Helpee may only have one helper"})
+              else 
+                //Save helper to post
+                posted.helper = update
+                posted.save(( err, newPost) => {
+                  console.log('in save',err, newPost)
+                  if(err)
+                    throw err
+                  if(help)
+                    notify(`${post?.user?.name}'s post is being helped`)
+                    
+                  return res.status(200).json(newPost)
+                })
+            })
+          .catch(err => res.status(500).json(err))
+        }
+
+
+      }).catch(err => console.error(err))
     }
   })
 })
@@ -167,6 +175,7 @@ router.get('/my-posts', verifyToken, (req, res, next) => {
     } else {
       Post
         .find({user:authData.user._id})
+        .populate('helper')
         .then(posts => { 
 
           res.status(200).json(posts)
@@ -186,6 +195,7 @@ router.get('/other-posts', verifyToken, (req, res, next) => {
     } else {
       Post
         .find({helper:authData.user._id})
+        .populate('user')
         .then(posts => res.status(200).json(posts))
         .catch(err => res.status(500).json(err))
     }
@@ -257,7 +267,7 @@ router.post('/resolve-post', verifyToken, (req, res, next) => {
 
 function notify(message){
   console.log('notify',message)
-  axios.post(`https://hooks.slack.com/services/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`, `{"text":"${message}"}`)
+  axios.post(process.env.SLACK_HOOK, `{"text":"${message}"}`)
     .then(res=>console.log(res.message)).catch(err=>console.error(err.message))
 
 }
