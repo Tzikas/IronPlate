@@ -107,8 +107,13 @@ router.post('/new-post', verifyToken, (req, res, next) => {
       Post
         .create(post)
         .then(posted => { 
-          notify(`${authData.user.name} added a new post.`)
-          res.status(200).json(posted)
+
+          User.findByIdAndUpdate(authData.user._id, { $inc: { points: -1*posted.bounty } }, {new: true})
+            .then(user => {
+              notify(`${authData.user.name} added a new post.`)
+              res.status(200).json({posted, user})
+            }).catch(err => console.error(err))
+
         })
         .catch(err => res.status(500).json(err))
     }
@@ -223,7 +228,8 @@ router.post('/resolve-post', verifyToken, (req, res, next) => {
           if(post.helper){
             console.log(post.user, authData.user._id, 'user ==> helpee ==> should pay cash')
             User //User who created the post should pay the bounty
-              .findByIdAndUpdate(post.user, { $inc: { points: x*post.bounty } }, {new: true})
+              //x*post.bounty
+              .findByIdAndUpdate(post.user, { $inc: { points: 0 } }, {new: true})
               .then(helpee => { 
                 User //User who is the helper should recieve the bounty 
                   .findByIdAndUpdate(post.helper, { $inc: { points:  -1*x*post.bounty } }, {new: true})
@@ -254,15 +260,36 @@ router.post('/resolve-post', verifyToken, (req, res, next) => {
           res.status(500).json(err) 
         } )
 
-      
-
-
-
+  
     }
     
   })
+
 })
 
+router.post('/cancel-post', verifyToken, (req, res, next) => {
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      res.status(403).json(err);
+    } else {
+      let {post} = req.body
+      console.log('delete',post)
+      Post
+        .findByIdAndDelete(post._id)
+        .then(dPost => { 
+          console.log(dPost)
+
+          User
+            .findByIdAndUpdate(authData.user._id, { $inc : { points: post.bounty}}, {new: true})
+            .then(user => {
+              console.log(user)
+              res.status(200).json({dPost, user}) 
+            }).catch(err => res.status(500).json(err))
+        
+        }).catch(err => res.status(500).json(err))
+    }
+  })
+})
 
 
 function notify(message){

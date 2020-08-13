@@ -1,5 +1,5 @@
 *{
-  transition:all 1s; 
+  transition:all .5s; 
 }
 body {
   margin: 0;
@@ -59,10 +59,10 @@ i img{
   padding-right: 5px;
 }
 
-i:nth-child(1)::after{
+/* i:nth-child(1)::after{
   content: 'points';
   padding: 3px;
-}
+} */
 
 i:nth-child(2)::before{
 
@@ -90,4 +90,16 @@ nav a {
   align-items: center;
   justify-content: center;
   margin:10px solid black;
+}
+
+nav a:hover{
+  text-decoration:underline;
+  background:#ccc;
+}
+
+.post .details{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }

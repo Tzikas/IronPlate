@@ -38,7 +38,7 @@ const actions = {
   },
   logOut: async () => {
     window.localStorage.removeItem('token')
-    return await API.get('/logout')
+    return await API.get('/logout',  head())
   },
   addPost: async(message) => {
     return await API.post('/new-post', message,  head())
@@ -56,7 +56,10 @@ const actions = {
     return await API.post('/help', user, head())
   },
   resolvePost: async(post) => {
-    return await API.post('/resolve-post', post)
+    return await API.post('/resolve-post', post, head())
+  },
+  cancelPost: async(post) => {
+    return await API.post('/cancel-post', post,  head())
   }
 
 };

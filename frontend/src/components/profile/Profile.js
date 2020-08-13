@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import TheContext from '../../TheContext'
 import actions from '../../api'
 import moment from 'moment'
+import {NotificationManager} from 'react-notifications';
 
 const Profile = (props) => {
     const [posts, setPosts] = useState([])
@@ -48,26 +49,50 @@ function MyPosts({posts, setPosts}){
 
 
 function EachMyPost({post, posts, setPosts, i}){
+
     const [resolve, setResolve] = useState(post.resolved)
     let {user, setUser} = useContext(TheContext)
+    
     const resolvePost = (val) => (event) => {
+
         actions.resolvePost({post, resolved:val}).then(res => {
             setResolve(val)
             let newPosts = [...posts]
             newPosts[i] = res.data.posted
             setPosts(newPosts)
-            setUser(res.data.helpee)                        
+            setUser(res.data.helpee)
+            if(val)  
+                NotificationManager.success(`You give ${post.bounty} points`, 'Issue Resolved')
+            else 
+                NotificationManager.warning(`You are refunded ${post.bounty} points`, 'Issue Still Open')
         }).catch(err => console.error(err))
+
     }
+  
+    const cancelPost = (event) => {
+        console.log(i, posts)
+        actions.cancelPost({post}).then(res => {
+                console.log(res, res.data.user, 'hmmm')
+                let newPosts = [...posts]
+                newPosts.splice(i,1)
+                setPosts(newPosts)
+                setUser(res.data.user)
+                NotificationManager.success( `You are refunded ${post.bounty} points`,'Issue Deleted',)
+
+        }).catch(err=> console.error(err))
+
+    }
+
+
     return (
         <li key={post._id}>
-            <div>{post.message}  <i>{post.bounty}</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
+            <div>{post.message}  <i>{post.bounty} Points</i> <i><img src={post.helper?.imageUrl} /> {post.helper?.name}</i> </div>
                 {post.helper?
                     resolve ? 
-                        <button onClick={resolvePost(false)}>Not Resolved</button>
+                        <button onClick={resolvePost(false)}>Undo<h2>🔴</h2></button>
                         : 
-                        <button onClick={resolvePost(true)}>Resolved</button>
-                 : null}
+                        <button onClick={resolvePost(true)}>Resolve<h2>✅</h2></button>
+                 : <button onClick={cancelPost}>Cancel</button>}
         </li>
     )
 }
@@ -102,23 +127,29 @@ function OthersPosts({posts}){
 const AddPost = ({history, posts}) => {
     const [message, setMessage] = useState("")
     
-    let {user} = React.useContext(TheContext); 
+    let {user, setUser} = React.useContext(TheContext); 
 
     //See if there is enough points to ask a question
-    let totalPointsSpent = posts.reduce((acc,post) => {
-        if(!post.resolved)
-            return acc += post.bounty
-        else 
-            return acc
-    }, 0)
-    let outOfPoints = user?.points - totalPointsSpent <= 0
+    //let totalPointsSpent = posts.reduce((acc,post) => {
+    //     console.log(post.resolved)
+    //     if(!post.resolved && !post)
+    //         return acc += post.bounty
+    //     else 
+    //         return acc
+    // }, 0)
+    //console.log(totalPointsSpent)
+    //let outOfPoints = user?.points - totalPointsSpent <= 0
 
+    let outOfPoints = user?.points <= 0
 
 
     const handleSubmit = e => {
         e.preventDefault();
 
         actions.addPost({message}).then(res => { 
+            console.log(res)
+            setUser(res.data.user)
+            NotificationManager.info(`You've submitted a new issue`)
             history.push('/')
         }).catch(err=> console.error(err))
 
@@ -129,7 +160,7 @@ const AddPost = ({history, posts}) => {
         <Fragment>
                     
             <form  id="askForHelp" onSubmit={handleSubmit}>
-                <input  disabled={outOfPoints} onChange={(e) => setMessage(e.target.value)} placeholder={outOfPoints? "Sorry your out of points" : "Ask for help"} type="text" />
+                <input  disabled={outOfPoints} onChange={(e) => setMessage(e.target.value)} placeholder={outOfPoints? "Sorry your out of points" : "What's your issue?"} type="text" />
                 <button disabled={outOfPoints}>Add</button>
             
             </form>

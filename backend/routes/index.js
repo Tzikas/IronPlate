@@ -12,6 +12,7 @@ router.get('/all-posts', (req, res, next) => {
   Post
     .find()
     .populate('user')
+    .populate('helper')
     .then(posts => res.status(200).json(posts))
     .catch(err => res.status(500).json(err))
 })

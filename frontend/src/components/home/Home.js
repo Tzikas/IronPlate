@@ -61,6 +61,7 @@ const EachPost = ( post ) => {
 
 const Posts = () => {
   const [posts, setPosts] = useState([])
+  console.log(posts)
   useEffect(() => { 
     actions.getAllPosts()
       .then(posts => {
@@ -74,11 +75,21 @@ const Posts = () => {
   return posts.map(eachPost => (
     <Fragment key={Math.random()}>
 
-      <li >
+      <li className="post">
         <img src={eachPost.user?.imageUrl} />
-        <div>{eachPost.user?.name} needs you help</div>
-        <div>{eachPost.message}</div>
-        <div>{eachPost.bounty}</div>
+        <div className="details">
+          { eachPost.helper ? 
+             eachPost.resolved ? 
+               <i>{eachPost.user?.name}'s issue was resolved by {eachPost.helper?.name} </i>
+              : 
+              <i>{eachPost.user?.name} is being helped by {eachPost.helper?.name} </i>            
+            : 
+            <i>{eachPost.user?.name} needs your help</i>
+
+          }
+          <div>"{eachPost.message}"</div>
+          <i>{eachPost.bounty} Points</i>
+        </div>
         <EachPost {...eachPost} />
 
       </li>
