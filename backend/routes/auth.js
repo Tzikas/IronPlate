@@ -296,16 +296,19 @@ router.post('/cancel-post', verifyToken, (req, res, next) => {
       Post
         .findByIdAndDelete(post._id)
         .then(dPost => {
-          console.log(dPost)
+          console.log('dPost',dPost)
+          if(!dPost){
+            return res.status(500).json({ name:"PostDeleted", message: "Post already deleted"})
+          } else { 
+            User
+              .findByIdAndUpdate(authData.user._id, { $inc: { points: post.bounty } }, { new: true })
+              .then(user => {
+                console.log(user)
+                res.status(200).json({ dPost, user })
+              }).catch(err => res.status(500).json(err))
+          }
+      }).catch(err => res.status(500).json(err))
 
-          User
-            .findByIdAndUpdate(authData.user._id, { $inc: { points: post.bounty } }, { new: true })
-            .then(user => {
-              console.log(user)
-              res.status(200).json({ dPost, user })
-            }).catch(err => res.status(500).json(err))
-
-        }).catch(err => res.status(500).json(err))
     }
   })
 })
