@@ -172,4 +172,6 @@ header{
   margin: 20px;
 }
 
-.profile{}
+.profile{
+  padding: 20px 0;
+}

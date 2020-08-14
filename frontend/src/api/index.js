@@ -3,7 +3,7 @@ import baseURL from './config.js'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
-console.log('coolbeans', baseURL)
+console.log('coolbeans baby', baseURL)
 
 const token = window.localStorage.getItem('token')
 let t = token ? token.substring(0,15):null
