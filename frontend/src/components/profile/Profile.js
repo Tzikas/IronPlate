@@ -11,6 +11,7 @@ const Profile = (props) => {
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
     const [resolvedPosts, setResolvedPosts] = useState([])
+    const [otherResolvedPosts, setOtherResolvedPosts] = useState([])
 
     useEffect(() => {
 
@@ -31,6 +32,11 @@ const Profile = (props) => {
                 setResolvedPosts(posts.data.reverse())
         }).catch(err => console.error(err))
 
+        actions.getOthersResolvedMyPosts().then(posts => {
+            if(posts)
+                setOtherResolvedPosts(posts.data.reverse())
+        })
+
     }, [])
     
 
@@ -43,6 +49,8 @@ const Profile = (props) => {
             <MyPosts posts={posts} setPosts={setPosts} />
             <OthersPosts posts={otherPosts} setOtherPosts={setOtherPosts}/>
             <ResolvedPosts posts={resolvedPosts} setResolvedPosts={setResolvedPosts} />
+            <OtherResolvedPosts posts={otherResolvedPosts} setOtherResolvedPosts={setOtherResolvedPosts} />
+
         </div>
     );
 }
@@ -160,7 +168,7 @@ function OPost({post, posts, setOtherPosts, j}){
             <div>You're helping {post.user?.name}</div>
 
 
-            <button onClick={help(false)}> <h2> NVM 🛑</h2></button>
+            <button onClick={help(false)}> Nevermind <h2> 🛑</h2></button>
         </li>
     )
 }
@@ -307,7 +315,29 @@ function ResolvedPosts({ posts, setResolvedPosts }) {
         React.createElement('h2', { key: 'all done' }, 'Resolved Posts:')
     )
     return rows
+}
 
+
+function OtherResolvedPosts({ posts, setResolvedPosts }) {
+    console.log(posts)
+    let rows = posts.map(post => {
+        return (
+            <li key={post._id}>
+            <div>{post.message}
+                <i>Helped by {post.helper?.name}</i>
+                <i>{post.bounty}</i>
+                <i><img src={post.user?.imageUrl} /></i>
+                <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
+                <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+            </div>
+
+            </li>
+        )
+    })
+    rows.unshift(
+        React.createElement('h2', { key: 'all done' }, 'Others Resolved My Posts:')
+    )
+    return rows
 }
 
 export default Profile;

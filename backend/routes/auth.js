@@ -199,7 +199,7 @@ router.get('/resolved-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ user: authData.user._id, resolved:true })
+        .find({ helper: authData.user._id, resolved:true })
         .populate('helper')
         .then(posts => {
 
@@ -207,7 +207,24 @@ router.get('/resolved-posts', verifyToken, (req, res, next) => {
         })
         .catch(err => res.status(500).json(err.message))
     }
+  })
+})
 
+
+router.get('/others-resolve-my-posts', verifyToken, (req, res, next) => {
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.status(403).json(err);
+    } else {
+      Post
+        .find({ user: authData.user._id, resolved:true })
+        .populate('helper')
+        .then(posts => {
+          res.status(200).json(posts)
+        })
+        .catch(err => res.status(500).json(err.message))
+    }
   })
 })
 

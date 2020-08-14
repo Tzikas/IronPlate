@@ -55,6 +55,9 @@ const actions = {
   getMyResolvedPosts: async() => {
     return await API.get('/resolved-posts', head())
   },
+  getOthersResolvedMyPosts: async() => {
+    return await API.get('/others-resolve-my-posts', head())
+  },
   helpUser: async (user) => {
     return await API.post('/help', user, head())
   },
