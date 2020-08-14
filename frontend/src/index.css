@@ -170,8 +170,28 @@ header{
   display:flex;
   justify-content:space-between;
   margin: 20px;
+  align-items: center;
+}
+
+header > * {
+  width: 33%;
+  overflow: hidden;
 }
 
 .profile{
   padding: 20px 0;
+}
+
+#logo{
+  width: 100px;
+}
+
+#logo-container{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+#logOut{
+  text-align: right;
 }

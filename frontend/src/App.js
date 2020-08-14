@@ -39,7 +39,12 @@ const App = () => {
 
     { user ?
       <header>
-        {user?.email}
+        <div>{user?.email}</div>
+        <div id="logo-container">
+          <img id="logo" src="./logo.webp"/>
+          IronQueue
+        </div>
+
         <NavLink id="logOut" onClick={logOut} to="/">Log Out</NavLink>
       </header> 
     : null }
