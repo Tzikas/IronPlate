@@ -235,7 +235,7 @@ router.get('/other-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ helper: authData.user._id}) //resolved:false
+        .find({ helper: authData.user._id, resolved:false}) //resolved:false
         .populate('user')
         .then(posts => res.status(200).json(posts))
         .catch(err => res.status(500).json(err))
