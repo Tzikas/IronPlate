@@ -10,7 +10,8 @@ import { NotificationManager } from 'react-notifications';
 const Profile = (props) => {
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
-    
+    const [resolvedPosts, setResolvedPosts] = useState([])
+
     useEffect(() => {
 
         //Get my posts 
@@ -25,6 +26,11 @@ const Profile = (props) => {
                 setOtherPosts(posts.data.reverse())
         }).catch(err => console.error(err))
 
+        actions.getMyResolvedPosts().then(posts => {
+            if(posts)
+                setResolvedPosts(posts.data.reverse())
+        }).catch(err => console.error(err))
+
     }, [])
     
 
@@ -36,7 +42,7 @@ const Profile = (props) => {
             <AddPost {...props} posts={posts} />
             <MyPosts posts={posts} setPosts={setPosts} />
             <OthersPosts posts={otherPosts} setOtherPosts={setOtherPosts}/>
-
+            <ResolvedPosts posts={resolvedPosts} setResolvedPosts={setResolvedPosts} />
         </div>
     );
 }
@@ -90,9 +96,7 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
 
     const cancelPost = (event) => {
-        console.log(i, posts, time)
         actions.cancelPost({ post }).then(res => {
-            console.log(res, res.data.user, 'hmmm')
             let newPosts = [...posts]
             newPosts.splice(i, 1)
             setPosts(newPosts)
@@ -103,6 +107,7 @@ function EachMyPost({ post, posts, setPosts, i }) {
 
     }
 
+    console.log(resolve, post.helper)
 
     return (
         <li key={post._id}>
@@ -278,5 +283,28 @@ function notifyMe(message) {
     // want to be respectful there is no need to bother them any more.
 }
 
+
+function ResolvedPosts({ posts, setResolvedPosts }) {
+    console.log(posts)
+    let rows = posts.map(post => {
+        return (
+            <li key={post._id}>
+            <div>{post.message}
+                <i>Helped by {post.helper?.name}</i>
+                <i>{post.bounty}</i>
+                <i><img src={post.user?.imageUrl} /></i>
+                <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
+                <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+            </div>
+
+            </li>
+        )
+    })
+    rows.unshift(
+        React.createElement('h2', { key: 'all done' }, 'Resolved Posts:')
+    )
+    return rows
+
+}
 
 export default Profile;

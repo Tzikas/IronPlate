@@ -30,10 +30,9 @@ const EachPost = ( post ) => {
 
   }
 
-  console.log(areYouTheHelper,'areYouTheHelper',isThereAnotherHelper,'isThereAnotherHelper', yours, !user?._id)
 
   return (
-    <Fragment>
+    <div>
       
       {helped? 
         <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
@@ -44,7 +43,7 @@ const EachPost = ( post ) => {
 
       <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
 
-    </Fragment>
+    </div>
   );
 };
 
@@ -82,7 +81,7 @@ const Posts = () => {
         <EachPost {...eachPost} />
 
       </li>
-      <div>{eachPost.time}</div>
+      {/* <div>{eachPost.time}</div> */}
 
     </Fragment>
 

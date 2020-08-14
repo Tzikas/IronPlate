@@ -25,7 +25,6 @@ export default function Scheduler({modalIsOpen, setIsOpen, user, post}){
     // subtitle.style.color = '#f00';
   }
 
-    console.log(post)
 
 
     return (

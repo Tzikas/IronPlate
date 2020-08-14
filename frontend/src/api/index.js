@@ -52,6 +52,9 @@ const actions = {
   getOtherPosts: async () => {
     return await API.get('/other-posts', head())
   },
+  getMyResolvedPosts: async() => {
+    return await API.get('/resolved-posts', head())
+  },
   helpUser: async (user) => {
     return await API.post('/help', user, head())
   },

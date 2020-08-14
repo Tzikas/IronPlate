@@ -179,7 +179,7 @@ router.get('/my-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ user: authData.user._id })
+        .find({ user: authData.user._id, resolved:false })
         .populate('helper')
         .then(posts => {
 
@@ -192,6 +192,25 @@ router.get('/my-posts', verifyToken, (req, res, next) => {
 })
 
 
+router.get('/resolved-posts', verifyToken, (req, res, next) => {
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if (err) {
+      res.status(403).json(err);
+    } else {
+      Post
+        .find({ user: authData.user._id, resolved:true })
+        .populate('helper')
+        .then(posts => {
+
+          res.status(200).json(posts)
+        })
+        .catch(err => res.status(500).json(err.message))
+    }
+
+  })
+})
+
 router.get('/other-posts', verifyToken, (req, res, next) => {
 
   jwt.verify(req.token, 'secretkey', (err, authData) => {
@@ -199,7 +218,7 @@ router.get('/other-posts', verifyToken, (req, res, next) => {
       res.status(403).json(err);
     } else {
       Post
-        .find({ helper: authData.user._id })
+        .find({ helper: authData.user._id}) //resolved:false
         .populate('user')
         .then(posts => res.status(200).json(posts))
         .catch(err => res.status(500).json(err))
