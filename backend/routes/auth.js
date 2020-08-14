@@ -349,8 +349,8 @@ router.post('/calendly', verifyToken, (req, res, next) => {
 
 function notify(message) {
   console.log('notify', message)
-  // axios.post(process.env.SLACK_HOOK, `{"text":"${message}"}`)
-  //   .then(res=>console.log(res.message)).catch(err=>console.error(err.message))
+  axios.post(process.env.SLACK_HOOK, `{"text":"${message}"}`)
+    .then(res=>console.log(res.message)).catch(err=>console.error(err.message))
 
 }
 
