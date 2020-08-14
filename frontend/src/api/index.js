@@ -60,6 +60,9 @@ const actions = {
   },
   cancelPost: async(post) => {
     return await API.post('/cancel-post', post,  head())
+  },
+  updateCalendly: async(post) => {
+    return await API.post('/calendly', post, head())
   }
 
 };

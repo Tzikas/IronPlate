@@ -103,3 +103,50 @@ nav a:hover{
   justify-content: space-between;
   align-items: center;
 }
+
+
+.ReactModal__Content{
+  animation: example .5s forwards;
+  display:'flex';
+  justify-content:'center';
+  align-items:'center';
+}
+
+
+
+@keyframes example {
+  0% {
+    width:0;
+    height:0;
+  }
+  50% {
+    width: 100vw;
+    height:100vh;
+  }
+  100% {
+    width: 90vw;
+    height:90vh;
+  }
+}
+
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+}
+
+.calendly{
+  width: 100%;
+  height: 100%;
+}
+
+
+input[type="text"]{
+  padding: 10px 0;
+  width: 100%;
+  text-align: center;
+}
+
+form#cal {
+  display: flex;
+}

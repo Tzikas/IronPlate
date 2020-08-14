@@ -1,10 +1,11 @@
 import React, { Fragment, Component, useState, useEffect } from 'react';
 import TheContext from '../../TheContext'
+import Scheduler from './Scheduler'
 
 import actions from '../../api/index'
 
 const EachPost = ( post ) => {
-  let [calendly, setCalendly] = useState(false)
+  // let [calendly, setCalendly] = useState(false)
   let {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
   let yours = post?.user._id === user?._id
 
@@ -23,39 +24,35 @@ const EachPost = ( post ) => {
   const help = (val) => (event) => {
     actions.helpUser({post, help:val}).then(res => {
       console.log(val, res)
-      if(res)
+      if(res) { 
         setHelped(val)
-        let win = window.open('https://zoom.us/j/761267530', '_blank');
-        win.focus();
+        setIsOpen(true);
+      }
+        //let win = window.open('https://zoom.us/j/761267530', '_blank');
+        //win.focus();
     }).catch(err => console.error(err))
 
   }
-
+  const [modalIsOpen,setIsOpen] = React.useState(false);
+  // function openModal() {
+  //   setIsOpen(true);
+  // }
+  // function closeModal(){
+  //   setIsOpen(false);
+  // }
 
   return (
     <Fragment>
-      {/* <button onClick={() => setCalendly(!calendly)}>Help {user?.name}</button> */}
-
+      
       {helped? 
         <button disabled={isThereAnotherHelper} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
         :
         <button disabled={isThereAnotherHelper} onClick={help(true)}>I got you <h2> 👍</h2></button>
 
       }
-      
 
-      {calendly ?
+      <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user}/>
 
-        <div style={{ height: "400px" }}>
-          <iframe
-            src="https://calendly.com/niko-tzikas/mentoring"
-            width="100%"
-            height="100%"
-            frameborder="0"
-          ></iframe>
-        </div>
-
-        : null}
     </Fragment>
   );
 };

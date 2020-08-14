@@ -189,17 +189,39 @@ const AddPost = ({ history, posts }) => {
 
 const Welcome = () => {
 
-    let { user, history } = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    let { user, history } = useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    
+    let [calendly, setCalendly] = useState(user?.calendly)
+    let [edit, setEdit] = useState(true)
+
+    const submitCalendly = (e) => {
+        e.preventDefault()
+        actions.updateCalendly({calendly}).then(res => {
+            NotificationManager.success(`You've updated your calendly`)
+            setEdit(true)
+        }).catch(err => console.error(err))
+    } 
+    
 
     if (!user) {
         return <Redirect to='/' />;
     }
+    //onClick={() => history.push('/')}
     return (
+        <Fragment>
         <div className="profile">
             <img src={user?.imageUrl} />
-            <div onClick={() => history.push('/')}>Welcome {user?.name} </div>
+            <div >
+                Welcome {user?.name}
+            </div>
             <div>{user?.points} Points</div>
+
         </div>
+        <form id="cal" onClick={()=>{ setEdit(false);}} onSubmit={submitCalendly}>
+            <input disabled={edit} value={calendly} type="text" onChange={(e) => setCalendly(e.target.value)} />    
+            <button hidden={edit} >Save</button>
+        </form>
+        </Fragment>
     )
 }
 
