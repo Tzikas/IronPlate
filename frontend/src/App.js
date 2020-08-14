@@ -52,7 +52,7 @@ const App = () => {
 
         {user ? (
           <Fragment>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">Queue</NavLink>
             <NavLink to="/profile">Profile</NavLink>
 
           </Fragment>

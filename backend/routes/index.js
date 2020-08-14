@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/all-posts', (req, res, next) => {
   Post
-    .find()
+    .find({resolved:false})
     .populate('user')
     .populate('helper')
     .then(posts => res.status(200).json(posts))
