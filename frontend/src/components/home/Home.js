@@ -5,16 +5,13 @@ import Scheduler from './Scheduler'
 import actions from '../../api/index'
 
 const EachPost = ( post ) => {
-  // let [calendly, setCalendly] = useState(false)
-  let {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+  const {user} = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
   let yours = post?.user._id === user?._id
 
-  // let open = false;
-  // if(!post?.helper || !yours )
-  //   open = true 
+  const [modalIsOpen,setIsOpen] = React.useState(false);
 
 
-  let areYouTheHelper =  post?.helper === user?._id
+  let areYouTheHelper =  post?.helper?._id === user?._id
 
   let isThereAnotherHelper = post?.helper && !areYouTheHelper
 
@@ -23,35 +20,29 @@ const EachPost = ( post ) => {
 
   const help = (val) => (event) => {
     actions.helpUser({post, help:val}).then(res => {
-      console.log(val, res)
-      if(res) { 
+      if(res)  
         setHelped(val)
+      
+      if(val)
         setIsOpen(true);
-      }
-        //let win = window.open('https://zoom.us/j/761267530', '_blank');
-        //win.focus();
+
     }).catch(err => console.error(err))
 
   }
-  const [modalIsOpen,setIsOpen] = React.useState(false);
-  // function openModal() {
-  //   setIsOpen(true);
-  // }
-  // function closeModal(){
-  //   setIsOpen(false);
-  // }
+
+  console.log(areYouTheHelper,'areYouTheHelper',isThereAnotherHelper,'isThereAnotherHelper', yours, !user?._id)
 
   return (
     <Fragment>
       
       {helped? 
-        <button disabled={isThereAnotherHelper} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
+        <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(false)}>Nevermind <h2> 🛑</h2></button>
         :
-        <button disabled={isThereAnotherHelper} onClick={help(true)}>I got you <h2> 👍</h2></button>
+        <button disabled={isThereAnotherHelper || yours || !user?._id} onClick={help(true)}>I got you <h2> 👍</h2></button>
 
       }
 
-      <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user}/>
+      <Scheduler modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} user={user} post={post}/>
 
     </Fragment>
   );

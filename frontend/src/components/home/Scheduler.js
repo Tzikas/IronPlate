@@ -16,7 +16,7 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root')
 
-export default function Scheduler({modalIsOpen, setIsOpen, user}){
+export default function Scheduler({modalIsOpen, setIsOpen, user, post}){
   var subtitle;
 
   function afterOpenModal() {
@@ -24,7 +24,8 @@ export default function Scheduler({modalIsOpen, setIsOpen, user}){
     // references are now sync'd and can be accessed.
     // subtitle.style.color = '#f00';
   }
-  
+
+    console.log(post)
 
 
     return (
@@ -38,12 +39,15 @@ export default function Scheduler({modalIsOpen, setIsOpen, user}){
         >
 
           <div className="modal-header">
-            <h2 ref={_subtitle => (subtitle = _subtitle)}>Please select a time to meet</h2>
+            <div class="zoom">
+              <h2 ref={_subtitle => (subtitle = _subtitle)}>Please select a time to meet</h2>
+              <a href="https://zoom.us/j/761267530">https://zoom.us/j/761267530</a>
+            </div>
             <button onClick={() => setIsOpen(false)}>close</button>
           </div>
           <div className="calendly">
             <iframe
-              src={user?.calendly}
+              src={post?.user?.calendly}
               width="100%"
               height="100%"
               frameBorder="0"

@@ -15,8 +15,10 @@ const responseGoogle = ({history, setUser}) => {
     actions
       .logIn(user)
       .then((user) => {
-        setUser({ ...user?.data });
-        history.push("profile")
+        if(user){
+          setUser({ ...user?.data })
+          history.push("profile")            
+        }
       })
       .catch( response => console.error(response));
   };

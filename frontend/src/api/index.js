@@ -70,12 +70,10 @@ const actions = {
 
 API.interceptors.response.use((response) => response, (error) => { 
   console.error(error?.response?.data, '????')
-  NotificationManager.error(String(error?.response?.data.message))
-
-  // if(error?.response?.data.name !== "JsonWebTokenError" )
-  //   NotificationManager.error(String(error?.response?.data.message))
-  // else
-  //   NotificationManager.error("Please signup or login")
+  if(error?.response?.data.name !== "JsonWebTokenError" )
+    NotificationManager.error(String(error?.response?.data.message))
+  else
+    NotificationManager.error("Please signup or login")
 
 })
 

@@ -5,9 +5,12 @@ import actions from '../../api'
 import moment from 'moment'
 import { NotificationManager } from 'react-notifications';
 
+
+
 const Profile = (props) => {
     const [posts, setPosts] = useState([])
     const [otherPosts, setOtherPosts] = useState([])
+    
     useEffect(() => {
 
         //Get my posts 
@@ -23,6 +26,7 @@ const Profile = (props) => {
         }).catch(err => console.error(err))
 
     }, [])
+    
 
 
     return (
@@ -31,7 +35,7 @@ const Profile = (props) => {
             <Welcome />  {/*'Look ma!  No props!!!'*/}
             <AddPost {...props} posts={posts} />
             <MyPosts posts={posts} setPosts={setPosts} />
-            <OthersPosts posts={otherPosts} />
+            <OthersPosts posts={otherPosts} setOtherPosts={setOtherPosts}/>
 
         </div>
     );
@@ -114,29 +118,45 @@ function EachMyPost({ post, posts, setPosts, i }) {
 }
 
 
-function OthersPosts({ posts }) {
-    let rows = posts.map(eachPost => (
+function OthersPosts({ posts, setOtherPosts }) {
 
-        <li key={eachPost._id}>
-            <div>{eachPost.message}
-                <i>{eachPost.bounty}</i>
-                <i><img src={eachPost.user?.imageUrl} /></i>
-                <i>Created {moment(eachPost.createdAt).format('h:mm:ss a')}</i>
-                <i>Last updated {moment(eachPost.updatedAt).format('h:mm:ss a')}</i>
-            </div>
-
-            <div>You're helping {eachPost.user?.name}</div>
-
-
-
-        </li>
-
-    ))
+    let rows = posts.map((post, j) => <OPost post={post} posts={posts} setOtherPosts={setOtherPosts} j={j}/>)
     rows.unshift(
         React.createElement('h2', { key: 'help me' }, 'Im helping:')
     )
     return rows
 }
+
+
+function OPost({post, posts, setOtherPosts, j}){
+    
+    //Same function exists in Home.  This could be cleaned up.
+    const help = (val) => (event) => {
+        console.log('help', post, val)
+
+        actions.helpUser({post, help:val}).then(res => {
+            let newPosts = [...posts]
+            newPosts.splice(j,1)
+            setOtherPosts(newPosts)
+        }).catch(err => console.error(err))
+    }
+    return (
+        <li key={post._id}>
+            <div>{post.message}
+                <i>{post.bounty}</i>
+                <i><img src={post.user?.imageUrl} /></i>
+                <i>Created {moment(post.createdAt).format('h:mm:ss a')}</i>
+                <i>Last updated {moment(post.updatedAt).format('h:mm:ss a')}</i>
+            </div>
+
+            <div>You're helping {post.user?.name}</div>
+
+
+            <button onClick={help(false)}> <h2> NVM 🛑</h2></button>
+        </li>
+    )
+}
+
 
 
 
@@ -161,7 +181,10 @@ const AddPost = ({ history, posts }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-
+        
+        if(user?.calendly === "https://calendly.com/ Click here to set your calendly!")
+            return alert('Please set your calendly before posting...')
+        
         actions.addPost({ message }).then(res => {
             console.log(res)
             setUser(res.data.user)
@@ -189,7 +212,7 @@ const AddPost = ({ history, posts }) => {
 
 const Welcome = () => {
 
-    let { user, history } = useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    let { user, history, setUser} = useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
     
     let [calendly, setCalendly] = useState(user?.calendly)
     let [edit, setEdit] = useState(true)
@@ -197,8 +220,10 @@ const Welcome = () => {
     const submitCalendly = (e) => {
         e.preventDefault()
         actions.updateCalendly({calendly}).then(res => {
+            console.log(res)
             NotificationManager.success(`You've updated your calendly`)
             setEdit(true)
+            setUser(res.data.user)
         }).catch(err => console.error(err))
     } 
     

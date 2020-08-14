@@ -12,14 +12,12 @@ const responseGoogle = ({setUser, history}) => {
     actions
       .signUp(user)
       .then((user) => {
-        setUser({ ...user?.data });
-        history.push("profile")
-
+          if(user){
+            setUser({ ...user?.data })
+            history.push("profile")            
+          }
       })
       .catch( response => { 
-        // alert(response.message)
-        console.error(response)
-
         throw new Error({err:'response'})
     });
     

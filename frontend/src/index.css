@@ -141,6 +141,10 @@ nav a:hover{
 }
 
 
+.zoom{
+  padding: 20px;
+}
+
 input[type="text"]{
   padding: 10px 0;
   width: 100%;
