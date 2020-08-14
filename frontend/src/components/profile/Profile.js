@@ -94,8 +94,11 @@ function EachMyPost({ post, posts, setPosts, i }) {
     }
 
 
+    let [cancel, setCancel] = useState(false)
 
     const cancelPost = (event) => {
+        setCancel(true)
+
         actions.cancelPost({ post }).then(res => {
             let newPosts = [...posts]
             newPosts.splice(i, 1)
@@ -117,7 +120,7 @@ function EachMyPost({ post, posts, setPosts, i }) {
                     <button disabled={timeUp} onClick={resolvePost(false)}>Undo<h2>🔴</h2></button>
                     :
                     <button onClick={resolvePost(true)}>Resolve<h2>✅</h2></button>
-                : <button onClick={cancelPost}>Cancel</button>}
+                : <button disabled={cancel} onClick={cancelPost}>Cancel</button>}
         </li>
     )
 }
