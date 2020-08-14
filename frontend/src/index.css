@@ -3,7 +3,7 @@
 }
 body {
   margin: 0;
-  padding: 50px;
+  padding: 0 50px;
   text-align: left;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -79,7 +79,7 @@ nav{
 
 
 
-nav a {
+nav a:not(#logOut) {
   color:#008eff;
   font-size: 24px;
   text-decoration:none;
@@ -154,3 +154,22 @@ input[type="text"]{
 form#cal {
   display: flex;
 }
+
+/* #logOut,#profilePic{
+  position: absolute;
+  top: 20px;
+  right: 50px;
+}
+
+
+#profilePic{
+
+} */
+
+header{
+  display:flex;
+  justify-content:space-between;
+  margin: 20px;
+}
+
+.profile{}

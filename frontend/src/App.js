@@ -37,15 +37,19 @@ const App = () => {
       
       
 
-
-      {user?.email}
+    { user ?
+      <header>
+        {user?.email}
+        <NavLink id="logOut" onClick={logOut} to="/">Log Out</NavLink>
+      </header> 
+    : null }
       <nav>
 
         {user ? (
           <Fragment>
             <NavLink to="/">Home</NavLink>
-            <NavLink onClick={logOut} to="/">Log Out</NavLink>
             <NavLink to="/profile">Profile</NavLink>
+
           </Fragment>
         ) : (
             <Fragment>

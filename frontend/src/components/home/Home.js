@@ -99,7 +99,6 @@ const Home = (props) => {
 
   return (
     <div>
-      Home
       <Posts />
 
     </div>
