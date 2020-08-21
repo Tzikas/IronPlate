@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-# IronPlate
-##### git clone https://github.com/Tzikas/IronPlate.git. 
-##### cd IronPlate && rm -rf .git
-
-=======
 # IronPlate with Hooks
 ##### git fork and/or clone https://github.com/Tzikas/IronPlate.git 
->>>>>>> hooksJWT
 ## Start Server
 ##### cd backend/ 
 ##### npm i 
@@ -17,6 +10,8 @@
 ##### cd frontend/ 
 ##### npm i 
 ##### npm start
+
+##### *For google auth you'll need a [client key](https://www.google.com/search?q=how+to+get+google+oauth+client+id&source=lmns&bih=798&biw=1199&rlz=1C5CHFA_enUS889US889&hl=en&sa=X&ved=2ahUKEwjc7LLz8qvrAhXZZt8KHSg6AfIQ_AUoAHoECAEQAA)*
 
 
 ## Deploy DB
