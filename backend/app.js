@@ -27,7 +27,7 @@ const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app", "https://elated-jackson-28b73e.netlify.app"] //Swap this with the client url 
+    origin: ["http://localhost:3000", "https://clientnetlify.netlify.app"] //Swap this with the client url 
   })
 );
 
@@ -56,28 +56,12 @@ app.use(logger('dev'));
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
-<<<<<<< HEAD
 
 
-/**CHANGE THIS**/
 app.use('/api', index);
 app.use('/api', auth);
-/*****/
 
 
-/**ADD THIS**/
-app.get('*', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
-})
-/*****/
-=======
-/**CHANGE THIS**/
-app.use('/api', index);
-app.use('/api', auth);
-/*****/
-
-
-/**ADD THIS**/
 app.get('*', (req, res, next) => {
   console.log('weird', req.headers.host, 'peach', req.url)
 
@@ -87,10 +71,5 @@ app.get('*', (req, res, next) => {
     next()
   }
 })
-/*****/
-
-// Uncomment this line for production
-// let client = path.join(__dirname + '../public/index.html')
->>>>>>> hooksJWT
 
 module.exports = app;

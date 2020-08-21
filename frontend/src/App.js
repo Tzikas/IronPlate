@@ -36,19 +36,19 @@ const App = () => {
 
       {user?.email}
       <nav>
-        <NavLink to="/">Home ||</NavLink>
+        <NavLink to="/">Home</NavLink>
 
         {user ? (
           <Fragment>
             <NavLink onClick={logOut} to="/">
-              Log Out |
+              Log Out
             </NavLink>
-            <NavLink to="/profile">Profile||</NavLink>
+            <NavLink to="/profile">Profile</NavLink>
           </Fragment>
           ) : (
           <Fragment>
-            <NavLink to="/sign-up">Sign Up |</NavLink>
-            <NavLink to="/log-in">Log In |</NavLink>
+            <NavLink to="/sign-up">Sign Up</NavLink>
+            <NavLink to="/log-in">Log In</NavLink>
           </Fragment>
         )}
       </nav>

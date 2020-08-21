@@ -10,3 +10,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+
+nav {
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+nav a { 
+  background: #ccc;
+  width: 33%;
+  padding: 20px;
+  margin: 5px;
+}
