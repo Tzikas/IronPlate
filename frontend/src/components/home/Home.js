@@ -1,18 +1,28 @@
-import React, { Component } from 'react';
-import actions from '../../services/index'
+import React, { Component, useState, useEffect } from 'react';
+import actions from '../../api/index'
 
 
-class Home extends Component {
-  async componentDidMount() {
-    //actions.test()
+
+const Home = (props) => {
+  let [fruit, setFruit] = useState('kiwi')
+
+  useEffect(()=>{
+    setFruit('passion fruit')
+  }, [])
+
+  const changeFruit = () => {
+    setFruit("pineapple")
   }
-  render() {
-    return (
-      <div>
-        
-      </div>
-    );
-  }
+
+  return( 
+    <div>
+      Home {fruit}
+      <button onClick={changeFruit}>Change Fruit</button>
+    </div>
+  )
 }
 
 export default Home;
+
+
+

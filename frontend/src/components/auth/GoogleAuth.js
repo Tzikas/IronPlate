@@ -1,11 +1,10 @@
 import React from "react";
-import actions from "../../services/index";
+import actions from "../../api/index";
 import { GoogleLogin } from "react-google-login";
 
 const responseGoogle = (props) => {
-  console.log(props);
   const onResponse = (response) => {
-    // console.log(response);
+    console.log(response);
     const user = {
       ...response.profileObj,
       password: response.profileObj?.googleId,
@@ -13,9 +12,9 @@ const responseGoogle = (props) => {
     actions
       .signUp(user)
       .then((user) => {
-        props.setUser({ ...user.data });
+        props.setUser({ ...user?.data });
       })
-      .catch(({ response }) => console.error(response.data));
+      .catch( response => console.error(response));
   };
   return (
     <GoogleLogin
