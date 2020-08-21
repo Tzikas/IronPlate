@@ -1,5 +1,5 @@
 import React, {Fragment, useState } from 'react';
-import actions from '../../services/index'
+import actions from '../../api/index'
 
 const SignUp = (props) => {
 

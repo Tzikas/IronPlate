@@ -1,15 +1,15 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import TheContext from './TheContext';
 import Home from "./components/home/Home";
 import NotFound from "./components/404/NotFound.js";
 import SignUp from "./components/auth/SignUp";
 import LogIn from "./components/auth/LogIn";
 import Profile from "./components/profile/Profile";
-import actions from "./services/index";
+import actions from "./api/index";
 import GoogleAuth from "./components/auth/GoogleAuth";
 import GoogleAuthLogin from "./components/auth/GoogleAuthLogin";
-
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 const App = () => {
   
   let [user, setUser] = useState(null)
@@ -28,8 +28,11 @@ const App = () => {
     setUser(null);
   };
 
+  const history = useHistory();
+
+
   return(
-        <TheContext.Provider value={user}>
+    <TheContext.Provider value={{ history, user, setUser }}>
 
       {user?.email}
       <nav>
@@ -71,6 +74,9 @@ const App = () => {
       </Switch>
       {!user && <GoogleAuth setUser={setUser} />}
       {!user && <GoogleAuthLogin setUser={setUser} />}
+
+      <NotificationContainer />
+
     </TheContext.Provider>
 
   )

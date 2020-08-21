@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 router.post('/signup', (req, res, next) => {
   User.register(req.body, req.body.password)
     .then((user) => { 
-      jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+      jwt.sign({user}, 'secretkey', { expiresIn: '30min' }, (err, token) => {
         req.login(user, function(err,result){
           res.status(201).json({...user._doc, token})
         })
@@ -21,13 +21,17 @@ router.post('/signup', (req, res, next) => {
 });
 
 
-
 router.get('/user', verifyToken, (req, res, next) => {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       res.status(403).json(err);
     } else {
-      res.status(200).json(authData.user)
+      // res.status(200).json(authData.user)
+      console.log(authData.user, 'yolo')
+      User.findById(authData.user._id).then(user => {
+        res.status(200).json(user)
+      }).catch(err => res.status(500).json(err))
+    
     }
   });
 });
@@ -37,7 +41,7 @@ router.get('/user', verifyToken, (req, res, next) => {
 
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   const { user } = req;
-  jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
+  jwt.sign({user}, 'secretkey', { expiresIn: '30min' }, (err, token) => {
     res.status(200).json({...user._doc, token});
   })
 });

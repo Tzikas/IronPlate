@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
-import actions from '../../services/index'
+import actions from '../../api/index'
 
 
 

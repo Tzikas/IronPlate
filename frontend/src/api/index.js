@@ -1,11 +1,14 @@
 import axios from 'axios';
 import baseURL from './config.js'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 
-console.log('coolbeans', baseURL)
+console.log(baseURL)
 
 const token = window.localStorage.getItem('token')
-console.log(token, process.env)
+let t = token ? token.substring(0,15):null
+
+console.log('TOKEN',t, 'NODE_ENV',process.env.NODE_ENV)
 
 const API = axios.create({ withCredentials: true, baseURL,  headers: { Authorization: `Bearer ${token}` }});
 
@@ -29,8 +32,13 @@ const actions = {
   }
 };
 
+API.interceptors.response.use((response) => response, (error) => { 
+  console.error(error?.response?.data)
+  if(error?.response?.data.name !== "JsonWebTokenError" )
+    NotificationManager.error(String(error?.response?.data.message))
+  else
+    NotificationManager.error("Please signup or login")
 
-API.interceptors.response.use((response) => response, (error) => console.error(error?.response?.data))
-
+})
 
 export default actions;

@@ -13,10 +13,12 @@ const Profile = (props) => {
 
 const Welcome = () => {
     
-    const user = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
-    
+    const { user, setUser, history } = React.useContext(TheContext); //With Context I can skip the prop drilling and access the context directly 
+    console.log(history)
     return (
-        <div>Welcome {user?.email} <img src={user?.imageUrl} /></div>
+        <div>Welcome {user?.email} <img src={user?.imageUrl} />
+            <button onClick={()=>history.push("/")}>Home</button>
+        </div>
     )
 }
 

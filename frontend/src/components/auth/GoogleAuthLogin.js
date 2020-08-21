@@ -1,5 +1,5 @@
 import React from "react";
-import actions from "../../services/index";
+import actions from "../../api/index";
 import { GoogleLogin } from "react-google-login";
 
 const responseGoogle = (props) => {
