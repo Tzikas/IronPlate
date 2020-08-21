@@ -10,12 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FTWD-OCT-2019/ironplate.git"
+    "url": "git+https://github.com/Tzikas/IronPlate.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FTWD-OCT-2019/ironplate/issues"
+    "url": "https://github.com/Tzikas/IronPlate/issues"
   },
-  "homepage": "https://github.com/FTWD-OCT-2019/ironplate#readme"
+  
+  "homepage": "https://github.com/Tzikas/IronPlate#readme"
 }
