@@ -8,3 +8,5 @@ backend/.env
 frontend/build
 
 **/.env
+
+.DS_Store
