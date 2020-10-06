@@ -31,9 +31,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@testing-library/react": "^11.0.4",
-    "jest": "^26.4.2"
   }
 }
