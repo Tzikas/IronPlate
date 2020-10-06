@@ -9,4 +9,8 @@ frontend/build
 
 **/.env
 
+**/package-lock.json
+frontend/package-lock.json
+background/package-lock.json
+
 .DS_Store
